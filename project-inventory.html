@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Automated inventory monitoring dashboard for 35K+ SKUs with proactive reorder alerts and real-time refresh.">
+<meta property="og:title" content="Inventory Monitoring Dashboard · Vrinda Parashar">
+<meta property="og:description" content="Proactive inventory monitoring for 35K+ SKUs eliminating reactive restocking.">
+<meta property="og:type" content="website">
 <title>Inventory Monitoring Dashboard · Vrinda Parashar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#08070f;--paper:#f2ede6;--rose:#e85d75;--teal:#00b4a6;--amber:#f7a325;--violet:#7c5cbf}
@@ -72,6 +78,8 @@ footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,2
 .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
 .reveal.in{opacity:1;transform:none}
 @keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media(hover:none){.cur{display:none}#bgCanvas{display:none}}
 @media(max-width:768px){nav{padding:1.5rem 2rem}.proj-hero{padding:8rem 2rem 4rem}.proj-body{padding:4rem 2rem}.metrics-row{grid-template-columns:1fr}.insight-grid{grid-template-columns:1fr}.proj-nav{flex-direction:column;gap:2rem}footer{padding:2rem;flex-direction:column;gap:.5rem;text-align:center}}
 </style>
 </head>

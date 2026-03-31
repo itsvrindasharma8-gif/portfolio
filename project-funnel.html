@@ -3,7 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="E-commerce funnel analysis identifying 36% checkout drop-off and driving +2.5% conversion through SQL and Power BI.">
+<meta property="og:title" content="E-commerce Funnel Analysis · Vrinda Parashar">
+<meta property="og:description" content="Identified 36% checkout drop-off and drove +2.5% conversion through SQL and Power BI.">
+<meta property="og:type" content="website">
 <title>E-commerce Funnel Analysis · Vrinda Parashar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#08070f;--paper:#f2ede6;--rose:#e85d75;--teal:#00b4a6;--amber:#f7a325;--violet:#7c5cbf;--accent:#e85d75}
@@ -88,6 +94,8 @@ footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,2
 .reveal.in{opacity:1;transform:none}
 .d1{transition-delay:.1s}.d2{transition-delay:.2s}
 @keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+@media(hover:none){.cur{display:none}#bgCanvas{display:none}}
 @media(max-width:768px){nav{padding:1.5rem 2rem}.proj-hero{padding:0 2rem 4rem}.proj-body{padding:4rem 2rem}.metrics-row{grid-template-columns:1fr}.insight-grid{grid-template-columns:1fr}.proj-nav{flex-direction:column;gap:2rem}footer{padding:2rem;flex-direction:column;gap:.5rem;text-align:center}}
 </style>
 </head>
@@ -167,13 +175,13 @@ footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,2
       </div>
       <div class="funnel-stage">
         <div class="stage-label">Checkout</div>
-        <div class="stage-bar-wrap"><div class="stage-bar" style="background:linear-gradient(90deg,var(--rose),#7c5cbf)" data-w="38"><span class="stage-pct">38%</span></div></div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="background:linear-gradient(90deg,var(--rose),#7c5cbf)" data-w="35"><span class="stage-pct">35%</span></div></div>
         <div class="stage-drop warn">-36% !</div>
       </div>
       <div class="funnel-stage">
         <div class="stage-label">Purchase</div>
         <div class="stage-bar-wrap"><div class="stage-bar" style="background:linear-gradient(90deg,#f7a325,#e85d75)" data-w="24"><span class="stage-pct">24%</span></div></div>
-        <div class="stage-drop" style="color:rgba(242,237,230,.4)">-14%</div>
+        <div class="stage-drop" style="color:rgba(242,237,230,.4)">-11%</div>
       </div>
     </div>
     <p>The most significant finding was the <strong>36% drop between cart and checkout</strong> — nearly double the standard industry attrition at that stage. This was the critical intervention point.</p>
