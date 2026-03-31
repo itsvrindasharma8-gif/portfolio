@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Growth &amp; Revenue Improvement · Vrinda Parashar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#08070f;--paper:#f2ede6;--rose:#e85d75;--teal:#00b4a6;--amber:#f7a325;--violet:#7c5cbf;--accent:#f7a325}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:'Syne',sans-serif;overflow-x:hidden}
+#bgCanvas{position:fixed;inset:0;z-index:0;opacity:.35;pointer-events:none}
+.cur{position:fixed;pointer-events:none;z-index:9999}
+#curDot{width:8px;height:8px;background:var(--amber);border-radius:50%;transform:translate(-50%,-50%);transition:transform .15s}
+#curRing{width:40px;height:40px;border:1.5px solid rgba(247,163,37,.45);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.6rem 5rem;mix-blend-mode:difference}
+.nav-mark{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;font-weight:600;color:#fff;letter-spacing:.04em;text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.5);text-decoration:none;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:#fff}
+
+.proj-hero{min-height:55vh;display:flex;align-items:flex-end;padding:9rem 5rem 5rem;position:relative;overflow:hidden}
+.proj-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 30% 40%,rgba(247,163,37,.13) 0%,transparent 65%),radial-gradient(ellipse 40% 50% at 80% 70%,rgba(232,93,117,.08) 0%,transparent 55%)}
+.proj-hero-content{position:relative;z-index:2;max-width:820px}
+.proj-eyebrow{display:flex;align-items:center;gap:1rem;font-family:'Space Mono',monospace;font-size:.62rem;color:var(--amber);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp .8s .2s both}
+.proj-eyebrow-line{width:2rem;height:1px;background:var(--amber)}
+.proj-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:700;line-height:1;color:#fff;margin-bottom:1.5rem;animation:fadeUp .9s .35s both}
+.proj-title em{font-style:italic;color:var(--amber)}
+.proj-tags{display:flex;gap:.5rem;flex-wrap:wrap;animation:fadeUp .8s .5s both}
+.ptag{font-family:'Space Mono',monospace;font-size:.56rem;padding:.3rem .7rem;letter-spacing:.05em;background:rgba(247,163,37,.08);border:1px solid rgba(247,163,37,.22);color:rgba(247,163,37,.85)}
+
+.proj-body{max-width:1100px;margin:0 auto;padding:6rem 5rem;position:relative;z-index:1}
+.proj-section{margin-bottom:5rem}
+.proj-section-label{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--amber);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem}
+.proj-section-label::before{content:'';width:1.5rem;height:1px;background:var(--amber)}
+.proj-section h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:#fff;margin-bottom:1.5rem;line-height:1.15}
+.proj-section p{font-family:'Cormorant Garamond',serif;font-size:1.12rem;line-height:1.9;color:rgba(242,237,230,.68);margin-bottom:1.2rem}
+.proj-section p strong{color:#fff;font-weight:600}
+
+/* METRICS */
+.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);margin:3rem 0;animation:fadeUp .8s .4s both}
+.metric-block{background:var(--ink);padding:2.5rem 2rem;text-align:center}
+.metric-big{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:700;color:var(--amber);display:block;line-height:1}
+.metric-desc{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.35);letter-spacing:.1em;text-transform:uppercase;margin-top:.5rem;display:block}
+
+/* GROWTH CHART */
+.growth-chart{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:2.5rem;margin:2rem 0}
+.gc-title{font-family:'Space Mono',monospace;font-size:.58rem;color:rgba(242,237,230,.3);letter-spacing:.14em;text-transform:uppercase;margin-bottom:2rem}
+.gc-bars{display:flex;align-items:flex-end;gap:1.2rem;height:160px}
+.gc-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:.6rem;height:100%}
+.gc-bar-track{width:100%;flex:1;display:flex;align-items:flex-end;position:relative}
+.gc-bar-fill{width:100%;border-radius:2px 2px 0 0;transition:height 1.6s cubic-bezier(.4,0,.2,1);height:0}
+.gc-bar-val{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;position:absolute;top:-1.8rem;left:50%;transform:translateX(-50%);white-space:nowrap}
+.gc-bar-lbl{font-family:'Space Mono',monospace;font-size:.52rem;color:rgba(242,237,230,.4);letter-spacing:.05em;text-align:center}
+.gc-arrow{display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:rgba(247,163,37,.3);flex-shrink:0;padding-bottom:2rem}
+.gc-result{margin-top:1.5rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.06);font-family:'Space Mono',monospace;font-size:.58rem;color:rgba(242,237,230,.3);letter-spacing:.08em}
+.gc-result strong{color:var(--amber)}
+
+/* INSIGHT GRID */
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.05);margin:2rem 0}
+.insight-card{background:var(--ink);padding:2rem;border-top:2px solid transparent}
+.insight-card.c1{border-color:var(--amber)}
+.insight-card.c2{border-color:var(--rose)}
+.insight-card.c3{border-color:var(--teal)}
+.insight-card.c4{border-color:var(--violet)}
+.insight-card h4{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:#fff;margin-bottom:.7rem;letter-spacing:.04em}
+.insight-card p{font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgba(242,237,230,.58);line-height:1.75}
+
+/* TIMELINE */
+.timeline{margin:2rem 0;display:flex;flex-direction:column;gap:0}
+.tl-item{display:grid;grid-template-columns:100px 1fr;gap:2rem;padding:1.8rem 0;border-bottom:1px solid rgba(255,255,255,.05);position:relative}
+.tl-item::before{content:'';position:absolute;left:84px;top:0;bottom:0;width:1px;background:rgba(255,255,255,.06)}
+.tl-item:last-child{border-bottom:none}
+.tl-period{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--amber);letter-spacing:.08em;text-align:right;padding-top:.15rem}
+.tl-dot{position:absolute;left:81px;top:2rem;width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px rgba(247,163,37,.5)}
+.tl-content h4{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;color:#fff;margin-bottom:.4rem}
+.tl-content p{font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgba(242,237,230,.58);line-height:1.7}
+
+/* OUTCOME */
+.outcome-block{background:linear-gradient(135deg,rgba(247,163,37,.08),rgba(232,93,117,.06));border:1px solid rgba(247,163,37,.18);padding:3rem;margin:2rem 0;position:relative;overflow:hidden}
+.outcome-block::before{content:'OUTCOME';position:absolute;top:1.5rem;right:1.5rem;font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(247,163,37,.3);letter-spacing:.2em}
+.outcome-block h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:#fff;margin-bottom:.8rem}
+.outcome-block p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.85;color:rgba(242,237,230,.65)}
+
+/* NAV / FOOTER */
+.proj-nav{display:flex;justify-content:space-between;align-items:center;padding:3rem 0;border-top:1px solid rgba(255,255,255,.06);margin-top:4rem}
+.proj-nav a{font-family:'Space Mono',monospace;font-size:.65rem;color:rgba(242,237,230,.4);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;display:flex;align-items:center;gap:.5rem}
+.proj-nav a:hover{color:var(--amber)}
+.proj-nav .next-proj h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#fff;margin-top:.4rem;text-align:right}
+footer{background:var(--ink);padding:2rem 5rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.04)}
+footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.22);letter-spacing:.1em}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+
+@media(max-width:768px){
+  nav{padding:1.5rem 2rem}
+  .proj-hero{padding:8rem 2rem 4rem}
+  .proj-body{padding:4rem 2rem}
+  .metrics-row{grid-template-columns:1fr 1fr}
+  .insight-grid{grid-template-columns:1fr}
+  .tl-item{grid-template-columns:1fr;gap:.5rem}
+  .tl-item::before,.tl-dot{display:none}
+  .tl-period{text-align:left}
+  .proj-nav{flex-direction:column;gap:2rem}
+  footer{padding:2rem;flex-direction:column;gap:.5rem;text-align:center}
+}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="cur" id="curDot" style="position:fixed;top:0;left:0"></div>
+<div class="cur" id="curRing" style="position:fixed;top:0;left:0"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark">Vrinda Parashar</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#experience">Experience</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="proj-hero">
+  <div class="proj-hero-bg"></div>
+  <div class="proj-hero-content">
+    <div class="proj-eyebrow"><span class="proj-eyebrow-line"></span>Project 05 · Sales Analytics</div>
+    <h1 class="proj-title">Sales Growth &amp;<br><em>Revenue Improvement</em></h1>
+    <div class="proj-tags">
+      <span class="ptag">Sales Analytics</span>
+      <span class="ptag">Power BI</span>
+      <span class="ptag">SKU Optimisation</span>
+      <span class="ptag">Pricing Strategy</span>
+      <span class="ptag">Marketplace Analytics</span>
+    </div>
+  </div>
+</div>
+
+<div class="proj-body">
+
+  <div class="metrics-row reveal">
+    <div class="metric-block">
+      <span class="metric-big">+105%</span>
+      <span class="metric-desc">YoY Sales Growth</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big" style="color:var(--rose)">35K+</span>
+      <span class="metric-desc">SKUs Analysed</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big" style="color:var(--teal)">5+</span>
+      <span class="metric-desc">Brand Websites</span>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Overview</div>
+    <h2>Doubling revenue from a standing start</h2>
+    <p>When joining RedTape Limited, the e-commerce sales operation had untapped potential spread across five brand websites, 35,000+ SKUs, and multiple marketplace channels. The task was clear: use data to understand where revenue was actually coming from, identify what was holding growth back, and turn those findings into action fast.</p>
+    <p>Over the following year, a structured programme of <strong>SKU-level analysis, marketplace performance tracking, ad spend reallocation, and pricing intelligence</strong> drove a <strong>105% year-on-year increase in total sales</strong> — effectively more than doubling revenue from the baseline year.</p>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">The Numbers</div>
+    <h2>Before &amp; after — the growth story</h2>
+    <div class="growth-chart" id="growthChart">
+      <div class="gc-title">Total Sales Index — Year of Joining vs Year After</div>
+      <div class="gc-bars">
+        <div class="gc-bar-wrap">
+          <div class="gc-bar-track">
+            <div class="gc-bar-fill" data-h="49" style="background:rgba(247,163,37,.28);border:1px solid rgba(247,163,37,.3)">
+              <span class="gc-bar-val" style="color:rgba(247,163,37,.55)">Baseline</span>
+            </div>
+          </div>
+          <div class="gc-bar-lbl">Year 1<br>Joined</div>
+        </div>
+        <div class="gc-arrow">→</div>
+        <div class="gc-bar-wrap">
+          <div class="gc-bar-track">
+            <div class="gc-bar-fill" data-h="100" style="background:linear-gradient(to top,rgba(247,163,37,.9),rgba(232,93,117,.6));border:1px solid rgba(247,163,37,.5)">
+              <span class="gc-bar-val" style="color:var(--amber)">+105%</span>
+            </div>
+          </div>
+          <div class="gc-bar-lbl">Year 2<br>After</div>
+        </div>
+      </div>
+      <div class="gc-result">Total sales more than doubled · Achieved within <strong>12 months</strong> of joining</div>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Key Levers</div>
+    <h2>What actually drove the growth</h2>
+    <div class="insight-grid">
+      <div class="insight-card c1">
+        <h4>SKU Performance Analysis</h4>
+        <p>Identified the top 20% of SKUs generating 80% of revenue. Deprioritised slow-movers, focused merchandising and ad budget on proven converters, and flagged discontinuation candidates using velocity and margin data.</p>
+      </div>
+      <div class="insight-card c2">
+        <h4>Ad Spend Reallocation</h4>
+        <p>Analysed ROAS by campaign, category, and platform. Shifted spend away from underperforming segments toward high-converting categories — improving overall return on ad investment by reallocating the same budget more intelligently.</p>
+      </div>
+      <div class="insight-card c3">
+        <h4>Pricing Intelligence</h4>
+        <p>Built a competitive pricing dashboard tracking key competitors across platforms. Identified sweet spots where modest price adjustments maintained conversion while protecting margins — particularly effective during festive season spikes.</p>
+      </div>
+      <div class="insight-card c4">
+        <h4>Monthly Performance Dashboards</h4>
+        <p>Created weekly and monthly Power BI dashboards surfacing sales velocity, channel contribution, and target tracking for the leadership team — enabling faster decisions and consistent momentum toward growth targets.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">How It Happened</div>
+    <h2>A timeline of impact</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-period">Month 1–2</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <h4>Baseline Audit</h4>
+          <p>Pulled full historical sales data across all channels via SQL. Built a category-level P&amp;L model in Excel and Power BI to understand where margin actually lived vs where revenue looked healthy on the surface.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-period">Month 3–5</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <h4>SKU Rationalisation &amp; Campaign Restructure</h4>
+          <p>Identified 300+ underperforming SKUs flagged for de-listing or bundling. Restructured ad campaigns around top-20 product families with the highest velocity and margin contribution. Introduced A/B price testing on hero SKUs.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-period">Month 6–9</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <h4>Seasonal Forecasting &amp; Stock Alignment</h4>
+          <p>Built a 12-month sales forecast incorporating festive season patterns, category trends, and historical sell-through rates. Enabled the buying team to place stock positions with better confidence, reducing both overstock and missed demand.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-period">Month 10–12</div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <h4>Full-Year Review: +105% Growth Confirmed</h4>
+          <p>End-of-year analysis confirmed total sales had grown by 105% against the prior year baseline. The combination of smarter SKU management, reallocated ad spend, and data-driven pricing had more than doubled revenue with no increase in marketing budget.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="outcome-block reveal">
+    <h3>+105% Sales Growth — Within 12 Months</h3>
+    <p>Starting from a clean audit of the product mix and channel performance, a structured data-led approach to SKU optimisation, ad spend allocation, and pricing intelligence drove total sales to more than double year-on-year. The growth was achieved without increasing the overall marketing budget — every gain came from making existing resources work harder and smarter through better data visibility.</p>
+  </div>
+
+  <div class="proj-nav">
+    <a href="index.html#projects">← Back to Projects</a>
+    <div class="next-proj">
+      <a href="project-uiux.html" style="flex-direction:column;align-items:flex-end">
+        <span>Next Project →</span>
+        <h4>UI/UX Research &amp; Website Overhaul</h4>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 Vrinda Parashar · Built with care</p>
+  <p>B.Sc. Computer Science (Hons) · Calcutta University</p>
+</footer>
+
+<script>
+const cvs=document.getElementById('bgCanvas'),ctx=cvs.getContext('2d');
+let W,H,pts=[];
+const COLS=['#f7a325','#e85d75','#7c5cbf','#00b4a6'];
+function resize(){W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+class P{constructor(){this.reset()}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.35;this.vy=(Math.random()-.5)*.35;this.r=Math.random()*1.6+.4;this.col=COLS[Math.floor(Math.random()*4)];this.a=Math.random()*.5+.15}update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.col+Math.floor(this.a*255).toString(16).padStart(2,'0');ctx.fill()}}
+for(let i=0;i<80;i++)pts.push(new P());
+function frame(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.update();p.draw()});requestAnimationFrame(frame)}
+frame();
+const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx-4+'px';dot.style.top=my-4+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx-20+'px';ring.style.top=ry-20+'px';requestAnimationFrame(loop)})();
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// Animate growth bars
+const chartObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.gc-bar-fill').forEach(bar=>{
+        bar.style.height=(bar.dataset.h||0)+'%';
+      });
+      chartObs.unobserve(e.target);
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('#growthChart').forEach(el=>chartObs.observe(el));
+</script>
+</body>
+</html>
