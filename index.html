@@ -1,198 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Vrinda Parashar — Data & Web Analyst specializing in GA4, Power BI, SQL, and e-commerce analytics.">
-<meta property="og:title" content="Vrinda Parashar · Data Analyst">
-<meta property="og:description" content="Data & Web Analyst specializing in GA4, Power BI, SQL, and e-commerce analytics.">
-<meta property="og:type" content="website">
-<title>Vrinda Parashar · Data Analyst</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<style>
-:root{--text-dark:#1a1828;--text-mid:#5a5572;--text-light:#9893a8;--white:#ffffff}
-#bgCanvas{opacity:.5}
-
-/* HERO */
-.hero{min-height:100vh;display:grid;grid-template-rows:1fr auto;position:relative;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 80% 30%,rgba(232,93,117,.18) 0%,transparent 65%),radial-gradient(ellipse 50% 60% at 10% 80%,rgba(0,180,166,.13) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 60% 70%,rgba(124,92,191,.1) 0%,transparent 55%)}
-.hero-content{display:grid;grid-template-columns:1.1fr 1fr;align-items:center;padding:10rem 5rem 4rem;position:relative;z-index:2;gap:4rem}
-.hero-eyebrow{display:flex;align-items:center;gap:1rem;font-family:'Space Mono',monospace;font-size:.65rem;color:var(--rose);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.8rem;animation:fadeUp .8s .2s both}
-.eyebrow-line{width:2.5rem;height:1px;background:var(--rose)}
-.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(4.5rem,9vw,8.5rem);line-height:.92;font-weight:700;color:#fff;margin-bottom:1rem;animation:fadeUp .9s .35s both}
-.hero-name .line2{font-style:italic;-webkit-text-stroke:1.5px rgba(255,255,255,.55);color:transparent;padding-left:2rem;display:block}
-.hero-band{display:inline-flex;align-items:center;background:var(--rose);padding:.5rem 2.2rem .5rem 1.2rem;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fff;margin-bottom:2rem;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,0 100%);animation:fadeUp .8s .5s both}
-.hero-desc{font-size:1rem;line-height:1.85;color:rgba(242,237,230,.62);max-width:460px;margin-bottom:3rem;animation:fadeUp .8s .65s both}
-.hero-desc strong{color:#fff}
-.hero-ctas{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;animation:fadeUp .8s .8s both}
-.btn-glow{position:relative;background:linear-gradient(135deg,var(--rose),#c4435a);color:#fff;padding:.9rem 2.2rem;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:transform .3s,box-shadow .3s;display:inline-block}
-.btn-glow:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(232,93,117,.4)}
-.btn-ghost{color:rgba(242,237,230,.65);padding:.9rem 2rem;font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(242,237,230,.2);transition:all .3s;display:inline-block}
-.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
-
-/* ORB */
-.hero-right{position:relative;animation:fadeUp 1s .5s both}
-.data-orb{position:relative;width:360px;height:360px;margin:auto}
-.orb-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(232,93,117,.2);animation:spinOrb 20s linear infinite}
-.orb-ring:nth-child(2){inset:22px;border-color:rgba(0,180,166,.2);animation-duration:14s;animation-direction:reverse}
-.orb-ring:nth-child(3){inset:48px;border-color:rgba(124,92,191,.15);animation-duration:28s}
-@keyframes spinOrb{to{transform:rotate(360deg)}}
-.orb-dot{position:absolute;width:8px;height:8px;border-radius:50%;top:calc(50% - 4px);right:-4px}
-.orb-ring:nth-child(1) .orb-dot{background:var(--rose);box-shadow:0 0 14px var(--rose)}
-.orb-ring:nth-child(2) .orb-dot{background:var(--teal);box-shadow:0 0 14px var(--teal)}
-.orb-ring:nth-child(3) .orb-dot{background:var(--violet);box-shadow:0 0 14px var(--violet)}
-.orb-center{position:absolute;inset:70px;border-radius:50%;background:radial-gradient(circle at 40% 40%,rgba(232,93,117,.2),rgba(0,180,166,.08),transparent);border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
-.orb-big{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:700;color:#fff;line-height:1}
-.orb-lbl{font-family:'Space Mono',monospace;font-size:.52rem;color:rgba(242,237,230,.45);letter-spacing:.15em;text-transform:uppercase;margin-top:.3rem}
-.stat-chips{position:absolute;right:-30px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.75rem}
-.chip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:.65rem 1.1rem;backdrop-filter:blur(8px)}
-.chip-val{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:#fff;display:block}
-.chip-lbl{font-family:'Space Mono',monospace;font-size:.54rem;color:rgba(242,237,230,.4);letter-spacing:.08em;text-transform:uppercase}
-.chip:nth-child(1) .chip-val{color:var(--rose)}
-.chip:nth-child(2) .chip-val{color:var(--teal)}
-.chip:nth-child(3) .chip-val{color:var(--amber)}
-
-/* TICKER */
-.hero-ticker{position:relative;z-index:2;border-top:1px solid rgba(255,255,255,.05);overflow:hidden;padding:1.2rem 0;background:rgba(255,255,255,.02)}
-.ticker-track{display:flex;animation:ticker 28s linear infinite;width:max-content}
-.ticker-item{display:flex;align-items:center;gap:2rem;padding:0 2rem;font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(242,237,230,.3);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
-.ticker-item span{color:var(--rose)}
-@keyframes ticker{to{transform:translateX(-50%)}}
-
-/* MARQUEE */
-.marquee-divider{overflow:hidden;padding:3rem 0;border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04)}
-.marquee-track{display:flex;gap:3rem;animation:marquee 22s linear infinite;width:max-content;align-items:center}
-.mw{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:300;font-style:italic;color:rgba(255,255,255,.05);white-space:nowrap}
-.mw.a{-webkit-text-stroke:1px rgba(232,93,117,.3);color:transparent}
-@keyframes marquee{to{transform:translateX(-50%)}}
-
-/* SECTION */
-.section{max-width:1200px;margin:0 auto;padding:8rem 5rem;position:relative;z-index:1}
-.sec-num{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--rose);letter-spacing:.2em;display:flex;align-items:center;gap:.8rem;margin-bottom:1rem}
-.sec-num::before{content:'';width:1.5rem;height:1px;background:var(--rose)}
-.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4.5rem);font-weight:700;line-height:1.05;color:#fff}
-.sec-title em{font-style:italic;color:var(--rose)}
-.sec-header{margin-bottom:4rem}
-
-/* ABOUT */
-.about-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:6rem;align-items:start;margin-top:3rem}
-.about-left{position:sticky;top:8rem}
-.about-portrait{width:100%;aspect-ratio:3/4;max-width:290px;border:1px solid rgba(255,255,255,.06);position:relative;overflow:hidden}
-.about-portrait img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(.92) contrast(1.05)}
-.portrait-tag{position:absolute;bottom:1.5rem;left:1.5rem;right:1.5rem;background:rgba(8,7,15,.85);backdrop-filter:blur(8px);padding:1rem;border-left:2px solid var(--rose)}
-.pt-title{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:#fff;letter-spacing:.04em}
-.pt-sub{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--rose);margin-top:.25rem}
-.edu-badge{margin-top:1.5rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);padding:1.4rem;display:flex;gap:1.2rem;align-items:center}
-.edu-icon{width:46px;height:46px;background:rgba(232,93,117,.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
-.edu-deg{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;color:#fff}
-.edu-school{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--text-light);letter-spacing:.06em;margin-top:.3rem}
-.about-text p{font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:300;line-height:1.9;color:rgba(242,237,230,.72);margin-bottom:1.5rem}
-.about-text p strong{color:#fff;font-weight:600}
-
-/* EXPERIENCE */
-.exp-section{background:rgba(255,255,255,.012);margin:0;max-width:100%}
-.exp-inner{max-width:1200px;margin:0 auto;padding:8rem 5rem}
-.exp-cards{display:flex;flex-direction:column;gap:1px;margin-top:4rem}
-.exp-card{background:rgba(8,7,15,.85);border:1px solid rgba(255,255,255,.05);display:grid;grid-template-columns:270px 1fr;position:relative;overflow:hidden;transition:border-color .4s,background .4s;cursor:default}
-.exp-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--rose),var(--violet));transform:scaleY(0);transform-origin:top;transition:transform .5s cubic-bezier(.4,0,.2,1)}
-.exp-card:hover{border-color:rgba(232,93,117,.18);background:rgba(232,93,117,.025)}
-.exp-card:hover::before{transform:scaleY(1)}
-.exp-left{padding:2.5rem;border-right:1px solid rgba(255,255,255,.05)}
-.exp-company{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;color:#fff;margin-bottom:.35rem}
-.exp-period{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--rose);letter-spacing:.1em;margin-bottom:1.2rem}
-.badge{display:inline-block;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;padding:.3rem .8rem;letter-spacing:.08em;text-transform:uppercase}
-.badge.cur{background:rgba(0,180,166,.1);border:1px solid rgba(0,180,166,.28);color:var(--teal)}
-.badge.promoted{background:rgba(232,93,117,.1);border:1px solid rgba(232,93,117,.28);color:var(--rose)}
-.badge.past{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:rgba(242,237,230,.45)}
-.exp-metrics{display:flex;gap:.75rem;margin-top:1.5rem;flex-wrap:wrap}
-.metric{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:.5rem .9rem}
-.metric-val{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--amber);display:block}
-.metric-lbl{font-family:'Space Mono',monospace;font-size:.52rem;color:rgba(242,237,230,.38);letter-spacing:.07em;text-transform:uppercase}
-.exp-right{padding:2.5rem}
-.exp-role{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:#fff;margin-bottom:1.4rem}
-.exp-list{list-style:none;display:flex;flex-direction:column;gap:.7rem}
-.exp-list li{display:grid;grid-template-columns:8px 1fr;gap:.9rem;font-size:.875rem;line-height:1.72;color:rgba(242,237,230,.58)}
-.exp-list li::before{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--rose);margin-top:.68rem;flex-shrink:0}
-
-/* SKILLS MOSAIC */
-.skills-mosaic{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:rgba(255,255,255,.04);margin-top:3.5rem}
-.skill-tile{background:var(--ink);padding:2rem;transition:background .3s;position:relative;overflow:hidden}
-.skill-tile:hover{background:rgba(255,255,255,.025)}
-.skill-tile.w5{grid-column:span 5}
-.skill-tile.w4{grid-column:span 4}
-.skill-tile.w3{grid-column:span 3}
-.skill-tile.w6{grid-column:span 6}
-.skill-tile h4{font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--rose);margin-bottom:.7rem}
-.skill-tile p{font-size:.83rem;color:rgba(242,237,230,.48);line-height:1.7}
-.skill-tile-icon{font-size:1.7rem;margin-bottom:.9rem;display:block}
-.skill-big{font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:700;font-style:italic;color:rgba(255,255,255,.03);position:absolute;bottom:-1rem;right:.8rem;line-height:1;pointer-events:none}
-.pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
-.pill{font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;padding:.38rem .85rem;border:1.5px solid rgba(255,255,255,.2);color:rgba(242,237,230,.85);letter-spacing:.05em;transition:all .2s;background:rgba(255,255,255,.04)}
-.pill:hover{border-color:var(--teal);color:var(--teal);background:rgba(0,180,166,.06)}
-
-/* PROJECTS */
-.projects-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.04);margin-top:3.5rem}
-.proj-card{background:var(--ink);padding:2.8rem;position:relative;overflow:hidden;transition:background .3s;cursor:pointer;text-decoration:none;display:block;color:inherit}
-.proj-card:hover{background:rgba(255,255,255,.022)}
-.proj-accent{position:absolute;top:0;left:0;right:0;height:3px}
-.proj-card:nth-child(1) .proj-accent{background:linear-gradient(90deg,var(--rose),var(--violet))}
-.proj-card:nth-child(2) .proj-accent{background:linear-gradient(90deg,var(--teal),#00e6d4)}
-.proj-card:nth-child(3) .proj-accent{background:linear-gradient(90deg,var(--amber),var(--rose))}
-.proj-card:nth-child(4) .proj-accent{background:linear-gradient(90deg,var(--violet),var(--teal))}
-.proj-num{font-family:'Cormorant Garamond',serif;font-size:5.5rem;font-weight:700;color:rgba(255,255,255,.03);position:absolute;top:.2rem;right:1.2rem;line-height:1;pointer-events:none}
-.proj-icon{font-size:1.8rem;margin-bottom:1.4rem;display:block}
-.proj-card h3{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;color:#fff;margin-bottom:.7rem;line-height:1.25}
-.proj-card p{font-size:.865rem;color:rgba(242,237,230,.52);line-height:1.8;margin-bottom:1.4rem}
-.proj-stack{display:flex;gap:.38rem;flex-wrap:wrap}
-.ptag{font-family:'Space Mono',monospace;font-size:.56rem;padding:.24rem .62rem;letter-spacing:.05em}
-.proj-card:nth-child(1) .ptag{background:rgba(232,93,117,.08);border:1px solid rgba(232,93,117,.2);color:rgba(232,93,117,.8)}
-.proj-card:nth-child(2) .ptag{background:rgba(0,180,166,.08);border:1px solid rgba(0,180,166,.2);color:rgba(0,180,166,.8)}
-.proj-card:nth-child(3) .ptag{background:rgba(247,163,37,.08);border:1px solid rgba(247,163,37,.2);color:rgba(247,163,37,.8)}
-.proj-card:nth-child(4) .ptag{background:rgba(124,92,191,.08);border:1px solid rgba(124,92,191,.2);color:rgba(124,92,191,.8)}
-.proj-result{margin-top:1.4rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.05);font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.32);letter-spacing:.07em}
-.proj-result strong{color:var(--amber)}
-.proj-cta{display:flex;align-items:center;gap:.5rem;margin-top:1.2rem;font-family:'Space Mono',monospace;font-size:.6rem;color:var(--rose);letter-spacing:.1em;text-transform:uppercase}
-.proj-cta svg{transition:transform .3s}
-.proj-card:hover .proj-cta svg{transform:translateX(4px)}
-
-/* CONTACT */
-.contact-wrap{background:var(--paper);color:var(--text-dark);position:relative;overflow:hidden;min-height:80vh;display:flex;align-items:center;justify-content:center}
-.contact-bg-txt{position:absolute;font-family:'Cormorant Garamond',serif;font-size:24vw;font-weight:700;font-style:italic;color:rgba(8,7,15,.055);white-space:nowrap;pointer-events:none;bottom:-3rem;left:50%;transform:translateX(-50%);line-height:1}
-.contact-inner{text-align:center;position:relative;z-index:2;padding:6rem 2rem}
-.contact-inner .sec-num{color:var(--rose);justify-content:center}
-.contact-inner .sec-num::before{background:var(--rose)}
-.contact-inner h2{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6rem);font-weight:700;line-height:1;color:var(--text-dark);margin-bottom:1rem}
-.contact-inner h2 em{font-style:italic;color:var(--rose)}
-.contact-sub{font-size:1rem;color:var(--text-mid);line-height:1.8;max-width:500px;margin:0 auto 2.5rem}
-.c-email{display:block;font-family:'Cormorant Garamond',serif;font-size:clamp(1rem,2.5vw,1.8rem);font-weight:300;color:var(--text-dark);text-decoration:none;border-bottom:1px solid rgba(8,7,15,.15);padding-bottom:.5rem;transition:color .3s;margin-bottom:2rem}
-.c-email:hover{color:var(--rose)}
-.c-row{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
-.c-link{display:flex;align-items:center;gap:.6rem;font-family:'Space Mono',monospace;font-size:.65rem;color:var(--text-mid);text-decoration:none;letter-spacing:.1em;padding:.85rem 1.5rem;border:1px solid rgba(8,7,15,.12);transition:all .3s}
-.c-link:hover{background:var(--rose);color:#fff;border-color:var(--rose)}
-
-/* RESPONSIVE */
-@media(max-width:960px){
-  nav{padding:1.5rem 2rem}
-  .hero-content{grid-template-columns:1fr;padding:8rem 2rem 3rem}
-  .hero-right{display:none}
-  .section{padding:5rem 2rem}
-  .about-grid{grid-template-columns:1fr;gap:3rem}
-  .about-left{position:static}
-  .exp-inner{padding:5rem 2rem}
-  .exp-card{grid-template-columns:1fr}
-  .exp-left{border-right:none;border-bottom:1px solid rgba(255,255,255,.05)}
-  .skill-tile{grid-column:span 12!important}
-  .projects-grid{grid-template-columns:1fr}
-  footer{padding:2rem;flex-direction:column;gap:.5rem;text-align:center}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vrinda Parashar — Data & Web Analyst specializing in GA4, Power BI, SQL, and e-commerce analytics.">
+  <meta property="og:title" content="Vrinda Parashar · Data Analyst">
+  <meta property="og:description" content="Data & Web Analyst specializing in GA4, Power BI, SQL, and e-commerce analytics.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vrindaparashar.com/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vrinda Parashar · Data Analyst">
+  <meta name="twitter:description" content="Data & Web Analyst specializing in GA4, Power BI, SQL, and e-commerce analytics.">
+  <link rel="canonical" href="https://vrindaparashar.com/">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+  <title>Vrinda Parashar · Data Analyst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<canvas id="bgCanvas"></canvas>
 
 <nav>
   <a href="index.html" class="nav-mark">Vrinda Parashar</a>
@@ -205,270 +32,257 @@
   </ul>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div>
-      <div class="hero-eyebrow"><span class="eyebrow-line"></span>Open to new opportunities</div>
-      <h1 class="hero-name">Vrinda<span class="line2">Parashar</span></h1>
-      <div class="hero-band">Website &amp; Data Analyst</div>
-      <p class="hero-desc">Turning raw data into revenue. I work at the intersection of <strong>analytics, e-commerce growth,</strong> and <strong>user behaviour</strong> — helping brands decode 2M+ monthly sessions into actionable strategy.</p>
-      <div class="hero-ctas">
-        <a href="mailto:vrindaparashar2003@gmail.com" class="btn-glow">Let's Connect</a>
-        <a href="https://linkedin.com/in/vrinda-parashar2024" target="_blank" class="btn-ghost">LinkedIn ↗</a>
-      </div>
-    </div>
-    <div class="hero-right">
-      <div class="data-orb">
-        <div class="orb-ring"><div class="orb-dot"></div></div>
-        <div class="orb-ring"><div class="orb-dot"></div></div>
-        <div class="orb-ring"><div class="orb-dot"></div></div>
-        <div class="orb-center"><span class="orb-big">2M+</span><span class="orb-lbl">Monthly Sessions</span></div>
-      </div>
-      <div class="stat-chips">
-        <div class="chip"><span class="chip-val">+40%</span><span class="chip-lbl">Prepaid Adoption</span></div>
-        <div class="chip"><span class="chip-val">-15%</span><span class="chip-lbl">RTO Reduction</span></div>
-        <div class="chip"><span class="chip-val">+60%</span><span class="chip-lbl">Organic Sales</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="hero-ticker">
-    <div class="ticker-track">
-      <div class="ticker-item">Google Analytics 4 <span>✦</span></div>
-      <div class="ticker-item">Power BI Dashboards <span>✦</span></div>
-      <div class="ticker-item">SQL Query Optimization <span>✦</span></div>
-      <div class="ticker-item">Conversion Funnel Analysis <span>✦</span></div>
-      <div class="ticker-item">Google Tag Manager <span>✦</span></div>
-      <div class="ticker-item">E-commerce Analytics <span>✦</span></div>
-      <div class="ticker-item">Sales Forecasting <span>✦</span></div>
-      <div class="ticker-item">SEO &amp; Search Console <span>✦</span></div>
-      <div class="ticker-item">Google Analytics 4 <span>✦</span></div>
-      <div class="ticker-item">Power BI Dashboards <span>✦</span></div>
-      <div class="ticker-item">SQL Query Optimization <span>✦</span></div>
-      <div class="ticker-item">Conversion Funnel Analysis <span>✦</span></div>
-      <div class="ticker-item">Google Tag Manager <span>✦</span></div>
-      <div class="ticker-item">E-commerce Analytics <span>✦</span></div>
-      <div class="ticker-item">Sales Forecasting <span>✦</span></div>
-      <div class="ticker-item">SEO &amp; Search Console <span>✦</span></div>
-    </div>
-  </div>
-</section>
+<main>
 
-<!-- MARQUEE -->
-<div class="marquee-divider">
-  <div class="marquee-track">
-    <span class="mw">Data</span><span class="mw a">Analytics</span><span class="mw">Growth</span><span class="mw a">Strategy</span><span class="mw">Insights</span><span class="mw a">Commerce</span><span class="mw">Data</span><span class="mw a">Analytics</span><span class="mw">Growth</span><span class="mw a">Strategy</span><span class="mw">Insights</span><span class="mw a">Commerce</span>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section class="section" id="about">
-  <div class="sec-header reveal">
-    <div class="sec-num">01 · About</div>
-    <h2 class="sec-title">Driven by <em>data,</em><br>shaped by curiosity</h2>
-  </div>
-  <div class="about-grid">
-    <div class="about-left reveal">
-      <div class="about-portrait">
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoH7QcFDAsLDAsLDA0NDQ0NDQ0MDA8MDBEPDA4RDg4PDhAQEBAQEBAQEBD/wAARCAAyADIDASIAAhEBAxEB/8QAGwABAQEBAQEBAQAAAAAAAAAAAAcGBQgBBAP/xAAwEAACAgECBAMGBwEAAAAAAAABAgMEBREGITFBUWFxkQcSIkJigaGx0RMjUpL/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A/eQAAAAAAAAAAAAfGXi4ueL4ebi4WVw9k4mFnX08bP4e9s0mYzCY8Ld1d8I8Jja9uL/AB/b2BkQAAAAAAAA5LatSk2bUYNb07FWdZyLFaq7U5TKITJknMqynYjDKsjLMj9HtPWlrMtevVSiLJW+fUQ82+LmTKTjNrj3ZFiIiIjYiIjgB9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf/2Q==" alt="Vrinda Parashar" />
-        <div class="portrait-tag"><div class="pt-title">Vrinda Parashar</div><div class="pt-sub">Data &amp; Web Analyst · Delhi</div></div>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div>
+        <div class="hero-eyebrow"><span class="eyebrow-line"></span>Turning messy data into revenue decisions</div>
+        <h1 class="hero-name">Vrinda<br>Parashar</h1>
+        <div class="hero-band">Data Analyst · E-commerce Growth</div>
+        <p class="hero-desc">Most analysts show you <strong>what</strong> happened. I find <strong>why</strong> — and what to do about it. At RedTape, that meant spotting a 36% checkout leak, cutting RTO by 15%, and building the dashboards that turned 2M+ monthly sessions into strategy.</p>
+        <div class="hero-ctas">
+          <a href="mailto:vrindaparashar2003@gmail.com" class="btn-primary">Let's Connect</a>
+          <a href="https://linkedin.com/in/vrinda-parashar2024" target="_blank" rel="noopener noreferrer" class="btn-ghost">LinkedIn →</a>
+        </div>
       </div>
-      <div class="edu-badge"><div class="edu-icon">🎓</div><div><div class="edu-deg">B.Sc. Computer Science (Hons)</div><div class="edu-school">Calcutta University · 2021–2024</div></div></div>
+      <div class="hero-metrics">
+        <div class="metric-item">
+          <span class="metric-val">2M+</span>
+          <span class="metric-lbl">Monthly Sessions</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+          <span class="metric-val">-15%</span>
+          <span class="metric-lbl">RTO Reduction</span>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric-item">
+          <span class="metric-val">+40%</span>
+          <span class="metric-lbl">Prepaid Adoption</span>
+        </div>
+      </div>
     </div>
-    <div class="about-text">
-      <p class="reveal">I'm a <strong>Web Analytics &amp; Growth Analyst</strong> with hands-on experience transforming complex datasets into revenue-driving decisions. My work spans GA4 implementation, conversion funnel optimisation, and large-scale Power BI dashboards across high-traffic e-commerce platforms.</p>
-      <p class="reveal d1">At <strong>RedTape Limited</strong>, I analyse sales and traffic across 5+ brand websites generating <strong>2M+ monthly sessions</strong> and 35K+ SKUs building dashboards that cut RTO by 15%, boosted prepaid orders by 40%, and improved inventory accuracy by 17%.</p>
-      <p class="reveal d2">My approach: I don't just report numbers, I find the story hidden in the data and translate it into clear action for marketing, operations, and product teams.</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- EXPERIENCE -->
-<div class="exp-section" id="experience">
-  <div class="exp-inner">
+  <!-- ABOUT -->
+  <section class="section" id="about">
     <div class="sec-header reveal">
-      <div class="sec-num">02 · Experience</div>
-      <h2 class="sec-title">Where I've <em>made</em><br>an impact</h2>
+      <div class="sec-num">01 · About</div>
+      <h2 class="sec-title">I ask <em>"so what?"</em><br>before anyone else</h2>
     </div>
-    <div class="exp-cards">
-      <div class="exp-card reveal">
-        <div class="exp-left">
-          <div class="exp-company">RedTape Limited</div>
-          <div class="exp-period">Sep 2025 · Present</div>
-          <span class="badge cur">Current Role</span>
-          <div class="exp-metrics">
-            <div class="metric"><span class="metric-val">2M+</span><span class="metric-lbl">Sessions/mo</span></div>
-            <div class="metric"><span class="metric-val">35K+</span><span class="metric-lbl">SKUs</span></div>
+    <div class="about-grid">
+      <div class="about-left reveal">
+        <div class="about-portrait">
+          <img src="public/vrinda-parashar.png" alt="Vrinda Parashar" width="290" height="387" loading="lazy" />
+          <div class="portrait-tag">
+            <div class="pt-title">Vrinda Parashar</div>
+            <div class="pt-sub">Data &amp; Web Analyst · Delhi</div>
           </div>
         </div>
-        <div class="exp-right">
-          <div class="exp-role">Data &amp; E-commerce Analyst · Website &amp; SEO Analytics</div>
-          <ul class="exp-list">
-            <li>Analysed sales and traffic across 5+ brand websites; identified revenue and conversion optimisation opportunities</li>
-            <li>Extracted 100K+ monthly transaction records using SQL; segmented by payment type, geography &amp; behaviour</li>
-            <li>Identified 36% checkout drop-off via funnel analysis; UI improvements increased conversion by 2.5%</li>
-            <li>Built a 2 year Power BI sales dashboard across 1M+ transactions for seasonal forecasting and inventory optimisation</li>
-            <li>Designed prepaid vs COD dashboards — +40% prepaid adoption, -15% RTO</li>
-            <li>Developed automated stock monitoring dashboard for fast-moving SKU replenishment</li>
-          </ul>
+        <div class="edu-badge">
+          <div class="edu-icon" aria-hidden="true">🎓</div>
+          <div>
+            <div class="edu-deg">B.Sc. Computer Science (Hons)</div>
+            <div class="edu-school">Calcutta University · 2021–2024</div>
+          </div>
         </div>
       </div>
-      <div class="exp-card reveal d1">
-        <div class="exp-left">
-          <div class="exp-company">RedTape Limited</div>
-          <div class="exp-period">Jul 2025 · Sep 2025</div>
-          <span class="badge promoted">Promoted</span>
-        </div>
-        <div class="exp-right">
-          <div class="exp-role">Cataloguing Executive · Marketplace Operations</div>
-          <ul class="exp-list">
-            <li>Managed product catalog data across Flipkart, Myntra, and major marketplaces</li>
-            <li>Improved listing accuracy and ensured platform guideline compliance</li>
-            <li>Optimised product attributes to improve search ranking and discoverability</li>
-          </ul>
-        </div>
-      </div>
-      <div class="exp-card reveal d2">
-        <div class="exp-left">
-          <div class="exp-company">The Chief Hustler</div>
-          <div class="exp-period">Apr 2024 · Dec 2024</div>
-          <span class="badge past">Remote</span>
-          <div class="exp-metrics"><div class="metric"><span class="metric-val">+60%</span><span class="metric-lbl">Organic Sales</span></div></div>
-        </div>
-        <div class="exp-right">
-          <div class="exp-role">E-commerce Operations Associate · Growth &amp; Analytics</div>
-          <ul class="exp-list">
-            <li>Optimised Amazon and Etsy listings, increasing organic sales by 60%</li>
-            <li>Built structured Excel sales tracking reports for marketplace performance analysis</li>
-            <li>Managed WordPress websites ensuring responsive UI and smooth customer journey</li>
-            <li>Improved SEO through meta-tag optimisation and targeted keyword strategy</li>
-            <li>Performed web analytics QA across JS, HTML, and tag implementations to validate event tracking</li>
-          </ul>
-        </div>
+      <div class="about-text">
+        <p class="reveal">I don't build dashboards for the sake of dashboards. I dig into messy transaction data — <strong>100K+ monthly records across 35K+ SKUs</strong> — to find the checkout leak nobody noticed, the RTO pattern eating into margins, and the prepaid incentive that actually shifts customer behaviour.</p>
+        <p class="reveal d1">At <strong>RedTape Limited</strong>, my work spans 5+ brand websites generating 2M+ monthly sessions. The Power BI dashboards I built didn't just visualise data — they changed how the operations team made decisions: <strong>-15% RTO, +40% prepaid adoption, +17% inventory accuracy.</strong></p>
+        <p class="reveal d2">My edge: I've done the operational work — cataloguing, SEO, marketplace management — so I understand the business context behind every dataset. I don't analyse in a vacuum. I ask "so what?" before anyone else has to.</p>
       </div>
     </div>
-  </div>
-</div>
+  </section>
 
-<!-- SKILLS -->
-<section class="section" id="skills">
-  <div class="sec-header reveal">
-    <div class="sec-num">03 · Skills</div>
-    <h2 class="sec-title">My <em>toolkit</em> for<br>making things happen</h2>
-  </div>
-  <div class="skills-mosaic reveal">
-    <div class="skill-tile w5">
-      <span class="skill-tile-icon">📊</span>
-      <h4>Data Analysis &amp; Visualisation</h4>
-      <p>Building intelligence dashboards that distil millions of rows into clear, actionable business decisions.</p>
-      <div class="pills"><span class="pill">Power BI</span><span class="pill">Advanced Excel</span><span class="pill">Funnel Analysis</span><span class="pill">Sales Forecasting</span><span class="pill">Data Cleaning</span></div>
-      <div class="skill-big">BI</div>
+  <!-- EXPERIENCE -->
+  <section class="exp-section" id="experience">
+    <div class="exp-inner">
+      <div class="sec-header reveal">
+        <div class="sec-num">02 · Experience</div>
+        <h2 class="sec-title">Results I've <em>shipped,</em><br>not just reported</h2>
+      </div>
+      <div class="exp-cards">
+        <div class="exp-card reveal">
+          <div class="exp-left">
+            <div class="exp-company">RedTape Limited</div>
+            <div class="exp-period">Sep 2025 · Present</div>
+            <span class="badge cur">Current Role</span>
+            <div class="exp-metrics">
+              <div class="metric"><span class="metric-val">2M+</span><span class="metric-lbl">Sessions/mo</span></div>
+              <div class="metric"><span class="metric-val">35K+</span><span class="metric-lbl">SKUs</span></div>
+            </div>
+          </div>
+          <div class="exp-right">
+            <div class="exp-role">Data &amp; E-commerce Analyst · Website &amp; SEO Analytics — <em>promoted from Cataloguing Executive within 3 months</em></div>
+            <ul class="exp-list">
+              <li>Spotted a <strong>36% checkout drop-off</strong> no one had quantified; funnel analysis led to UI fixes that lifted conversion by 2.5%</li>
+              <li>Built prepaid vs COD dashboards that <strong>shifted 40% of orders to prepaid</strong>, directly reducing RTO costs</li>
+              <li>Extracted and segmented 100K+ monthly transaction records by payment type, geography, and behaviour using SQL</li>
+              <li>Designed a 2-year Power BI sales dashboard across 1M+ transactions for seasonal forecasting and inventory planning</li>
+              <li>Automated stock monitoring for fast-moving SKUs, eliminating reactive restocking decisions</li>
+              <li>Analysed traffic and sales across 5+ brand websites generating 2M+ monthly sessions to identify revenue leaks</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-card reveal d1">
+          <div class="exp-left">
+            <div class="exp-company">RedTape Limited</div>
+            <div class="exp-period">Jul 2025 · Sep 2025</div>
+            <span class="badge promoted">Promoted</span>
+          </div>
+          <div class="exp-right">
+            <div class="exp-role">Cataloguing Executive · Marketplace Operations</div>
+            <ul class="exp-list">
+              <li>Managed product catalogues across Flipkart, Myntra, and major marketplaces — learned the operational side that most analysts never see</li>
+              <li>This ground-level exposure to catalogue data, search ranking, and listing accuracy is what let me ask better questions later as an analyst</li>
+              <li>Optimised product attributes and SEO to improve organic discoverability across platforms</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-card reveal d2">
+          <div class="exp-left">
+            <div class="exp-company">The Chief Hustler</div>
+            <div class="exp-period">Apr 2024 · Dec 2024</div>
+            <span class="badge past">Remote</span>
+            <div class="exp-metrics"><div class="metric"><span class="metric-val">+60%</span><span class="metric-lbl">Organic Sales</span></div></div>
+          </div>
+          <div class="exp-right">
+            <div class="exp-role">E-commerce Operations Associate · Growth &amp; Analytics</div>
+            <ul class="exp-list">
+              <li>Grew organic sales on Amazon and Etsy by <strong>60%</strong> through listing optimisation and keyword strategy</li>
+              <li>Built structured Excel reports that turned weekly guesswork into data-backed decisions</li>
+              <li>Managed WordPress sites end-to-end — learnt to connect SEO, UX, and analytics into one picture</li>
+              <li>Performed web analytics QA across JS, HTML, and tag implementations to validate event tracking accuracy</li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="skill-tile w4">
-      <span class="skill-tile-icon">🌐</span>
-      <h4>Web &amp; Product Analytics</h4>
-      <p>GA4 event tracking, GTM implementation, and Search Console insights to optimise every digital touchpoint.</p>
-      <div class="pills"><span class="pill">GA4</span><span class="pill">Google Tag Manager</span><span class="pill">Search Console</span></div>
-      <div class="skill-big">GA4</div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <div class="sec-header reveal">
+      <div class="sec-num">03 · Skills</div>
+      <h2 class="sec-title">How I <em>get to</em><br>the answer</h2>
     </div>
-    <div class="skill-tile w3">
-      <span class="skill-tile-icon">💻</span>
-      <h4>Programming</h4>
-      <div class="pills"><span class="pill">SQL (MySQL)</span><span class="pill">Python</span><span class="pill">Java</span><span class="pill">PHP</span><span class="pill">JavaScript</span></div>
-      <div class="skill-big">&lt;/&gt;</div>
+    <div class="skills-mosaic reveal">
+      <div class="skill-tile w5">
+        <span class="skill-tile-icon" aria-hidden="true">📊</span>
+        <h4>Data Analysis &amp; Visualisation</h4>
+        <p>Building intelligence dashboards that distil millions of rows into clear, actionable business decisions.</p>
+        <div class="pills"><span class="pill">Power BI</span><span class="pill">Advanced Excel</span><span class="pill">Funnel Analysis</span><span class="pill">Sales Forecasting</span><span class="pill">Data Cleaning</span></div>
+        <div class="skill-big">BI</div>
+      </div>
+      <div class="skill-tile w4">
+        <span class="skill-tile-icon" aria-hidden="true">🌐</span>
+        <h4>Web &amp; Product Analytics</h4>
+        <p>GA4 event tracking, GTM implementation, and Search Console insights to optimise every digital touchpoint.</p>
+        <div class="pills"><span class="pill">GA4</span><span class="pill">Google Tag Manager</span><span class="pill">Search Console</span></div>
+        <div class="skill-big">GA4</div>
+      </div>
+      <div class="skill-tile w3">
+        <span class="skill-tile-icon" aria-hidden="true">💻</span>
+        <h4>Programming</h4>
+        <div class="pills"><span class="pill">SQL (MySQL)</span><span class="pill">Python</span><span class="pill">Java</span><span class="pill">PHP</span><span class="pill">JavaScript</span></div>
+        <div class="skill-big">&lt;/&gt;</div>
+      </div>
+      <div class="skill-tile w6">
+        <span class="skill-tile-icon" aria-hidden="true">🛒</span>
+        <h4>E-commerce &amp; Marketplaces</h4>
+        <p>End-to-end marketplace management across India's biggest platforms — from listing to fulfilment analytics.</p>
+        <div class="pills"><span class="pill">Shopify</span><span class="pill">Amazon Seller Central</span><span class="pill">Flipkart</span><span class="pill">Myntra</span><span class="pill">Etsy</span><span class="pill">WordPress</span></div>
+      </div>
+      <div class="skill-tile w6">
+        <span class="skill-tile-icon" aria-hidden="true">🔍</span>
+        <h4>SEO &amp; Growth</h4>
+        <p>Keyword research, technical audits, and content optimisation strategies that compound over time.</p>
+        <div class="pills"><span class="pill">SEMrush</span><span class="pill">Keyword Research</span><span class="pill">Meta Optimisation</span><span class="pill">Technical SEO</span><span class="pill">SERP Analysis</span></div>
+      </div>
     </div>
-    <div class="skill-tile w6">
-      <span class="skill-tile-icon">🛒</span>
-      <h4>E-commerce &amp; Marketplaces</h4>
-      <p>End-to-end marketplace management across India's biggest platforms — from listing to fulfilment analytics.</p>
-      <div class="pills"><span class="pill">Shopify</span><span class="pill">Amazon Seller Central</span><span class="pill">Flipkart</span><span class="pill">Myntra</span><span class="pill">Etsy</span><span class="pill">WordPress</span></div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="sec-header reveal">
+      <div class="sec-num">04 · Projects</div>
+      <h2 class="sec-title">Work that <em>moved</em><br>the needle</h2>
     </div>
-    <div class="skill-tile w6">
-      <span class="skill-tile-icon">🔍</span>
-      <h4>SEO &amp; Growth</h4>
-      <p>Keyword research, technical audits, and content optimisation strategies that compound over time.</p>
-      <div class="pills"><span class="pill">SEMrush</span><span class="pill">Keyword Research</span><span class="pill">Meta Optimisation</span><span class="pill">Technical SEO</span><span class="pill">SERP Analysis</span></div>
+    <div class="projects-grid">
+
+      <a href="project-funnel.html" class="proj-card reveal">
+        <div class="proj-accent"></div>
+        <div class="proj-num">01</div>
+        <span class="proj-icon" aria-hidden="true">🔬</span>
+        <h3>E-commerce Funnel &amp; Conversion Analysis</h3>
+        <p>Analysed 100K+ transaction records to study user purchase behaviour. Identified checkout-stage drop-off using funnel segmentation with advanced SQL queries.</p>
+        <div class="proj-stack"><span class="ptag">SQL</span><span class="ptag">Power BI</span><span class="ptag">Funnel Analysis</span><span class="ptag">Behavioural Segmentation</span></div>
+        <div class="proj-result">Outcome: <strong>+2.5% conversion rate</strong> after targeted UI improvements</div>
+        <div class="proj-cta">View Project <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+
+      <a href="project-sales.html" class="proj-card reveal d1">
+        <div class="proj-accent"></div>
+        <div class="proj-num">02</div>
+        <span class="proj-icon" aria-hidden="true">📈</span>
+        <h3>Sales Forecasting &amp; Prepaid Order Optimisation</h3>
+        <p>Built a 2-year historical sales dashboard across 1M+ transactions for seasonal forecasting, inventory optimisation, and RTO reduction.</p>
+        <div class="proj-stack"><span class="ptag">Power BI</span><span class="ptag">Forecasting</span><span class="ptag">RTO Analysis</span><span class="ptag">Regional Segmentation</span></div>
+        <div class="proj-result">Outcome: <strong>+40% prepaid · -15% RTO · +17% inventory accuracy</strong></div>
+        <div class="proj-cta">View Project <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+
+      <a href="project-inventory.html" class="proj-card reveal d2">
+        <div class="proj-accent"></div>
+        <div class="proj-num">03</div>
+        <span class="proj-icon" aria-hidden="true">📦</span>
+        <h3>Automated Inventory Monitoring Dashboard</h3>
+        <p>Designed a dashboard to identify fast-selling SKUs and reduce stock-out risk through data-backed reorder timing insights for proactive inventory management.</p>
+        <div class="proj-stack"><span class="ptag">Dashboard Design</span><span class="ptag">SKU Analysis</span><span class="ptag">Inventory Planning</span><span class="ptag">Automation</span></div>
+        <div class="proj-result">Outcome: <strong>Eliminated reactive restocking decisions</strong></div>
+        <div class="proj-cta">View Project <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+
+      <a href="project-bakery.html" class="proj-card reveal d3">
+        <div class="proj-accent"></div>
+        <div class="proj-num">04</div>
+        <span class="proj-icon" aria-hidden="true">🍰</span>
+        <h3>Bakery Management System</h3>
+        <p>Developed a full-stack database-driven ordering platform with backend order management, user authentication, and a fully responsive customer-facing interface from scratch.</p>
+        <div class="proj-stack"><span class="ptag">PHP</span><span class="ptag">MySQL</span><span class="ptag">HTML/CSS</span><span class="ptag">JavaScript</span></div>
+        <div class="proj-result">Outcome: <strong>End-to-end full-stack delivery</strong></div>
+        <div class="proj-cta">View Project <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </a>
+
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PROJECTS -->
-<section class="section" id="projects">
-  <div class="sec-header reveal">
-    <div class="sec-num">04 · Projects</div>
-    <h2 class="sec-title">Work that <em>moved</em><br>the needle</h2>
-  </div>
-  <div class="projects-grid">
-
-    <a href="project-funnel.html" class="proj-card reveal">
-      <div class="proj-accent"></div>
-      <div class="proj-num">01</div>
-      <span class="proj-icon">🔬</span>
-      <h3>E-commerce Funnel &amp; Conversion Analysis</h3>
-      <p>Analysed 100K+ transaction records to study user purchase behaviour. Identified checkout-stage drop-off using funnel segmentation with advanced SQL queries.</p>
-      <div class="proj-stack"><span class="ptag">SQL</span><span class="ptag">Power BI</span><span class="ptag">Funnel Analysis</span><span class="ptag">Behavioural Segmentation</span></div>
-      <div class="proj-result">Outcome: <strong>+2.5% conversion rate</strong> after targeted UI improvements</div>
-      <div class="proj-cta">View Project <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    </a>
-
-    <a href="project-sales.html" class="proj-card reveal d1">
-      <div class="proj-accent"></div>
-      <div class="proj-num">02</div>
-      <span class="proj-icon">📈</span>
-      <h3>Sales Forecasting &amp; Prepaid Order Optimisation</h3>
-      <p>Built a 2-year historical sales dashboard across 1M+ transactions for seasonal forecasting, inventory optimisation, and RTO reduction.</p>
-      <div class="proj-stack"><span class="ptag">Power BI</span><span class="ptag">Forecasting</span><span class="ptag">RTO Analysis</span><span class="ptag">Regional Segmentation</span></div>
-      <div class="proj-result">Outcome: <strong>+40% prepaid · -15% RTO · +17% inventory accuracy</strong></div>
-      <div class="proj-cta">View Project <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    </a>
-
-    <a href="project-inventory.html" class="proj-card reveal d2">
-      <div class="proj-accent"></div>
-      <div class="proj-num">03</div>
-      <span class="proj-icon">📦</span>
-      <h3>Automated Inventory Monitoring Dashboard</h3>
-      <p>Designed a dashboard to identify fast-selling SKUs and reduce stock-out risk through data-backed reorder timing insights for proactive inventory management.</p>
-      <div class="proj-stack"><span class="ptag">Dashboard Design</span><span class="ptag">SKU Analysis</span><span class="ptag">Inventory Planning</span><span class="ptag">Automation</span></div>
-      <div class="proj-result">Outcome: <strong>Eliminated reactive restocking decisions</strong></div>
-      <div class="proj-cta">View Project <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    </a>
-
-    <a href="project-bakery.html" class="proj-card reveal d3">
-      <div class="proj-accent"></div>
-      <div class="proj-num">04</div>
-      <span class="proj-icon">🍰</span>
-      <h3>Bakery Management System</h3>
-      <p>Developed a full-stack database-driven ordering platform with backend order management, user authentication, and a fully responsive customer-facing interface from scratch.</p>
-      <div class="proj-stack"><span class="ptag">PHP</span><span class="ptag">MySQL</span><span class="ptag">HTML/CSS</span><span class="ptag">JavaScript</span></div>
-      <div class="proj-result">Outcome: <strong>End-to-end full-stack delivery</strong></div>
-      <div class="proj-cta">View Project <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    </a>
-
-  </div>
-</section>
-
-<!-- CONTACT -->
-<div class="contact-wrap" id="contact">
-  <div class="contact-bg-txt">Hello.</div>
-  <div class="contact-inner">
-    <div class="sec-num reveal">05 · Contact</div>
-    <h2 class="reveal">Let's build <em>something</em><br>great together</h2>
-    <p class="contact-sub reveal">Open to data analytics, web analytics, and e-commerce growth roles. Always happy to chat about dashboards, data strategy, or anything in between.</p>
-    <a href="mailto:vrindaparashar2003@gmail.com" class="c-email reveal">vrindaparashar2003@gmail.com</a>
-    <div class="c-row reveal">
-      <a href="tel:+919875395143" class="c-link">📞 +91 98753 95143</a>
-      <a href="https://linkedin.com/in/vrinda-parashar2024" target="_blank" class="c-link">🔗 LinkedIn Profile</a>
+  <!-- CONTACT -->
+  <section class="contact-wrap" id="contact">
+    <div class="contact-bg-txt">Hello.</div>
+    <div class="contact-inner">
+      <div class="sec-num reveal">05 · Contact</div>
+      <h2 class="reveal">Have data?<br>Let's find <em>the story</em></h2>
+      <p class="contact-sub reveal">I'm looking for a role where I can keep finding the narratives hiding in complex data — and turning them into revenue-moving decisions. If that sounds like what your team needs, let's talk.</p>
+      <a href="mailto:vrindaparashar2003@gmail.com" class="c-email reveal">vrindaparashar2003@gmail.com</a>
+      <div class="c-row reveal">
+        <a href="tel:+919875395143" class="c-link">📞 +91 98753 95143</a>
+        <a href="https://linkedin.com/in/vrinda-parashar2024" target="_blank" rel="noopener noreferrer" class="c-link">🔗 LinkedIn Profile</a>
+      </div>
     </div>
-  </div>
-</div>
+  </section>
+
+</main>
 
 <footer>
   <p>© 2026 Vrinda Parashar · Built with care</p>
   <p>B.Sc. Computer Science (Hons) · Calcutta University</p>
 </footer>
 
-<script>window.PARTICLE_COUNT=110;window.PARTICLE_LINES=true</script>
 <script src="main.js"></script>
+<noscript><style>.reveal{opacity:1;transform:none;transition:none}</style></noscript>
 </body>
 </html>
