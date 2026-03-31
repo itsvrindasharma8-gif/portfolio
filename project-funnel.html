@@ -11,51 +11,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <style>
-:root{--ink:#08070f;--paper:#f2ede6;--rose:#e85d75;--teal:#00b4a6;--amber:#f7a325;--violet:#7c5cbf;--accent:#e85d75}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--ink);color:var(--paper);font-family:'Syne',sans-serif;overflow-x:hidden}
-#bgCanvas{position:fixed;inset:0;z-index:0;opacity:.35;pointer-events:none}
-.cur{position:fixed;pointer-events:none;z-index:9999}
-#curDot{width:8px;height:8px;background:var(--rose);border-radius:50%;transform:translate(-50%,-50%);transition:transform .15s}
-#curRing{width:40px;height:40px;border:1.5px solid rgba(232,93,117,.45);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
-
-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.6rem 5rem;mix-blend-mode:difference}
-.nav-mark{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;font-weight:600;color:#fff;letter-spacing:.04em;text-decoration:none}
-.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
-.nav-links a{font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.5);text-decoration:none;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
-.nav-links a:hover{color:#fff}
-.back-link{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.5);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;transition:color .3s}
-.back-link:hover{color:#fff}
-
-/* HERO */
-.proj-hero{min-height:55vh;display:flex;align-items:flex-end;padding:0 5rem 5rem;position:relative;overflow:hidden}
-.proj-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 20% 50%,rgba(232,93,117,.15) 0%,transparent 65%)}
-.proj-hero-content{position:relative;z-index:2;max-width:800px}
-.proj-eyebrow{display:flex;align-items:center;gap:1rem;font-family:'Space Mono',monospace;font-size:.62rem;color:var(--rose);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp .8s .2s both}
-.proj-eyebrow-line{width:2rem;height:1px;background:var(--rose)}
-.proj-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:700;line-height:1;color:#fff;margin-bottom:1.5rem;animation:fadeUp .9s .35s both}
-.proj-title em{font-style:italic;color:var(--rose)}
-.proj-tags{display:flex;gap:.5rem;flex-wrap:wrap;animation:fadeUp .8s .5s both}
-.ptag{font-family:'Space Mono',monospace;font-size:.56rem;padding:.3rem .7rem;letter-spacing:.05em;background:rgba(232,93,117,.08);border:1px solid rgba(232,93,117,.2);color:rgba(232,93,117,.8)}
-
-/* BODY */
-.proj-body{max-width:1100px;margin:0 auto;padding:6rem 5rem;position:relative;z-index:1}
-.proj-section{margin-bottom:5rem}
-.proj-section-label{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--rose);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem}
-.proj-section-label::before{content:'';width:1.5rem;height:1px;background:var(--rose)}
-.proj-section h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:#fff;margin-bottom:1.5rem;line-height:1.15}
-.proj-section p{font-family:'Cormorant Garamond',serif;font-size:1.12rem;line-height:1.9;color:rgba(242,237,230,.68);margin-bottom:1.2rem}
-.proj-section p strong{color:#fff;font-weight:600}
-
-/* METRICS ROW */
-.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);margin:3rem 0;animation:fadeUp .8s .4s both}
-.metric-block{background:var(--ink);padding:2.5rem 2rem;text-align:center}
-.metric-big{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:700;color:var(--rose);display:block;line-height:1}
-.metric-desc{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.35);letter-spacing:.1em;text-transform:uppercase;margin-top:.5rem;display:block}
-
-/* FUNNEL VIS */
+:root{--accent:#e85d75;--accent-rgb:232,93,117}
+.ptag{font-family:'Space Mono',monospace;font-size:.56rem;padding:.3rem .7rem;letter-spacing:.05em;background:rgba(var(--accent-rgb),.08);border:1px solid rgba(var(--accent-rgb),.2);color:rgba(var(--accent-rgb),.8)}
+.proj-hero-bg{background:radial-gradient(ellipse 70% 60% at 20% 50%,rgba(var(--accent-rgb),.15) 0%,transparent 65%)}
+.metrics-row{grid-template-columns:repeat(3,1fr)}
+.metric-big{font-size:3.5rem}
+.insight-grid{grid-template-columns:1fr 1fr}
+.insight-card.c1{border-color:var(--rose)}.insight-card.c2{border-color:var(--teal)}.insight-card.c3{border-color:var(--amber)}.insight-card.c4{border-color:var(--violet)}
 .funnel-visual{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:2.5rem;margin:2rem 0}
 .funnel-stage{display:flex;align-items:center;gap:1.5rem;margin-bottom:1rem}
 .stage-label{font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(242,237,230,.5);width:100px;flex-shrink:0;text-align:right}
@@ -64,45 +28,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 .stage-pct{font-family:'Space Mono',monospace;font-size:.65rem;color:#fff;font-weight:600}
 .stage-drop{font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(242,237,230,.35);width:55px;flex-shrink:0}
 .stage-drop.warn{color:var(--rose);font-weight:600}
-
-/* INSIGHT CARDS */
-.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.05);margin:2rem 0}
-.insight-card{background:var(--ink);padding:2rem;border-top:2px solid transparent}
-.insight-card.c1{border-color:var(--rose)}
-.insight-card.c2{border-color:var(--teal)}
-.insight-card.c3{border-color:var(--amber)}
-.insight-card.c4{border-color:var(--violet)}
-.insight-card h4{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:#fff;margin-bottom:.7rem;letter-spacing:.04em}
-.insight-card p{font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgba(242,237,230,.58);line-height:1.75}
-
-/* OUTCOME */
-.outcome-block{background:linear-gradient(135deg,rgba(232,93,117,.08),rgba(124,92,191,.06));border:1px solid rgba(232,93,117,.15);padding:3rem;margin:2rem 0;position:relative;overflow:hidden}
-.outcome-block::before{content:'OUTCOME';position:absolute;top:1.5rem;right:1.5rem;font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(232,93,117,.3);letter-spacing:.2em}
-.outcome-block h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:#fff;margin-bottom:.8rem}
-.outcome-block p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.85;color:rgba(242,237,230,.65)}
-
-/* NAV BOTTOM */
-.proj-nav{display:flex;justify-content:space-between;align-items:center;padding:3rem 0;border-top:1px solid rgba(255,255,255,.06);margin-top:4rem}
-.proj-nav a{font-family:'Space Mono',monospace;font-size:.65rem;color:rgba(242,237,230,.4);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;display:flex;align-items:center;gap:.5rem}
-.proj-nav a:hover{color:var(--rose)}
-.proj-nav .next-proj h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#fff;margin-top:.4rem;text-align:right}
-
-footer{background:var(--ink);padding:2rem 5rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.04)}
-footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.22);letter-spacing:.1em}
-
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
-.reveal.in{opacity:1;transform:none}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}
-@keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-@media(hover:none){.cur{display:none}#bgCanvas{display:none}}
-@media(max-width:768px){nav{padding:1.5rem 2rem}.proj-hero{padding:0 2rem 4rem}.proj-body{padding:4rem 2rem}.metrics-row{grid-template-columns:1fr}.insight-grid{grid-template-columns:1fr}.proj-nav{flex-direction:column;gap:2rem}footer{padding:2rem;flex-direction:column;gap:.5rem;text-align:center}}
+@media(max-width:768px){.funnel-stage{gap:1rem}.stage-label{width:70px}}
 </style>
 </head>
 <body>
 <canvas id="bgCanvas"></canvas>
-<div class="cur" id="curDot" style="position:fixed;top:0;left:0"></div>
-<div class="cur" id="curRing" style="position:fixed;top:0;left:0"></div>
 
 <nav>
   <a href="index.html" class="nav-mark">Vrinda Parashar</a>
@@ -157,7 +87,7 @@ footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,2
   <div class="proj-section reveal">
     <div class="proj-section-label">The Funnel</div>
     <h2>Where users dropped off</h2>
-    <div class="funnel-visual" id="funnelVis">
+    <div class="funnel-visual" id="funnelVis" data-anim-target=".stage-bar" data-anim-prop="width" data-anim-attr="w">
       <div class="funnel-stage">
         <div class="stage-label">Sessions</div>
         <div class="stage-bar-wrap"><div class="stage-bar" style="background:linear-gradient(90deg,#e85d75,#c4435a)" data-w="100"><span class="stage-pct">100%</span></div></div>
@@ -236,36 +166,10 @@ footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,2
 </div>
 
 <footer>
-  <p>© 2025 Vrinda Parashar · Built with care</p>
+  <p>© 2026 Vrinda Parashar · Built with care</p>
   <p>B.Sc. Computer Science (Hons) · Calcutta University</p>
 </footer>
 
-<script>
-const cvs=document.getElementById('bgCanvas'),ctx=cvs.getContext('2d');
-let W,H,pts=[];
-const COLS=['#e85d75','#00b4a6','#7c5cbf','#f7a325'];
-function resize(){W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight}
-resize();window.addEventListener('resize',resize);
-class P{constructor(){this.reset()}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.35;this.vy=(Math.random()-.5)*.35;this.r=Math.random()*1.6+.4;this.col=COLS[Math.floor(Math.random()*4)];this.a=Math.random()*.5+.15}update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.col+Math.floor(this.a*255).toString(16).padStart(2,'0');ctx.fill()}}
-for(let i=0;i<80;i++)pts.push(new P());
-function frame(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.update();p.draw()});requestAnimationFrame(frame)}
-frame();
-const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx-4+'px';dot.style.top=my-4+'px'});
-(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx-20+'px';ring.style.top=ry-20+'px';requestAnimationFrame(loop)})();
-const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-// Animate funnel bars
-const funnelObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.querySelectorAll('.stage-bar').forEach(bar=>{bar.style.width=(bar.dataset.w||0)+'%'});
-      funnelObs.unobserve(e.target);
-    }
-  });
-},{threshold:.3});
-document.querySelectorAll('#funnelVis').forEach(el=>funnelObs.observe(el));
-</script>
+<script src="main.js"></script>
 </body>
 </html>

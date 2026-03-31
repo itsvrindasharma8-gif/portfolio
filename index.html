@@ -11,54 +11,23 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <style>
-:root {
-  --ink: #08070f;
-  --paper: #f2ede6;
-  --rose: #e85d75;
-  --teal: #00b4a6;
-  --amber: #f7a325;
-  --violet: #7c5cbf;
-  --text-dark: #1a1828;
-  --text-mid: #5a5572;
-  --text-light: #9893a8;
-  --white: #ffffff;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--ink);color:var(--paper);font-family:'Syne',sans-serif;overflow-x:hidden}
-#bgCanvas{position:fixed;inset:0;z-index:0;opacity:.5;pointer-events:none}
-
-/* CURSOR */
-.cur{position:fixed;pointer-events:none;z-index:9999}
-#curDot{width:8px;height:8px;background:var(--rose);border-radius:50%;transform:translate(-50%,-50%);transition:transform .15s}
-#curRing{width:40px;height:40px;border:1.5px solid rgba(232,93,117,.45);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
-
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.6rem 5rem;mix-blend-mode:difference}
-.nav-mark{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;font-weight:600;color:#fff;letter-spacing:.04em;text-decoration:none}
-.nav-links{display:flex;gap:2.5rem;list-style:none}
-.nav-links a{font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.5);text-decoration:none;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
-.nav-links a:hover{color:#fff}
+:root{--text-dark:#1a1828;--text-mid:#5a5572;--text-light:#9893a8;--white:#ffffff}
+#bgCanvas{opacity:.5}
 
 /* HERO */
 .hero{min-height:100vh;display:grid;grid-template-rows:1fr auto;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 80% 30%,rgba(232,93,117,.18) 0%,transparent 65%),radial-gradient(ellipse 50% 60% at 10% 80%,rgba(0,180,166,.13) 0%,transparent 60%),radial-gradient(ellipse 40% 40% at 60% 70%,rgba(124,92,191,.1) 0%,transparent 55%)}
 .hero-content{display:grid;grid-template-columns:1.1fr 1fr;align-items:center;padding:10rem 5rem 4rem;position:relative;z-index:2;gap:4rem}
-
 .hero-eyebrow{display:flex;align-items:center;gap:1rem;font-family:'Space Mono',monospace;font-size:.65rem;color:var(--rose);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.8rem;animation:fadeUp .8s .2s both}
 .eyebrow-line{width:2.5rem;height:1px;background:var(--rose)}
-
 .hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(4.5rem,9vw,8.5rem);line-height:.92;font-weight:700;color:#fff;margin-bottom:1rem;animation:fadeUp .9s .35s both}
 .hero-name .line2{font-style:italic;-webkit-text-stroke:1.5px rgba(255,255,255,.55);color:transparent;padding-left:2rem;display:block}
-
 .hero-band{display:inline-flex;align-items:center;background:var(--rose);padding:.5rem 2.2rem .5rem 1.2rem;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fff;margin-bottom:2rem;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 50%,calc(100% - 14px) 100%,0 100%);animation:fadeUp .8s .5s both}
-
 .hero-desc{font-size:1rem;line-height:1.85;color:rgba(242,237,230,.62);max-width:460px;margin-bottom:3rem;animation:fadeUp .8s .65s both}
 .hero-desc strong{color:#fff}
-
 .hero-ctas{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;animation:fadeUp .8s .8s both}
-
 .btn-glow{position:relative;background:linear-gradient(135deg,var(--rose),#c4435a);color:#fff;padding:.9rem 2.2rem;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:transform .3s,box-shadow .3s;display:inline-block}
 .btn-glow:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(232,93,117,.4)}
 .btn-ghost{color:rgba(242,237,230,.65);padding:.9rem 2rem;font-family:'Space Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(242,237,230,.2);transition:all .3s;display:inline-block}
@@ -78,7 +47,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 .orb-center{position:absolute;inset:70px;border-radius:50%;background:radial-gradient(circle at 40% 40%,rgba(232,93,117,.2),rgba(0,180,166,.08),transparent);border:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
 .orb-big{font-family:'Cormorant Garamond',serif;font-size:3.2rem;font-weight:700;color:#fff;line-height:1}
 .orb-lbl{font-family:'Space Mono',monospace;font-size:.52rem;color:rgba(242,237,230,.45);letter-spacing:.15em;text-transform:uppercase;margin-top:.3rem}
-
 .stat-chips{position:absolute;right:-30px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.75rem}
 .chip{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:.65rem 1.1rem;backdrop-filter:blur(8px)}
 .chip-val{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:#fff;display:block}
@@ -121,7 +89,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 .edu-icon{width:46px;height:46px;background:rgba(232,93,117,.1);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
 .edu-deg{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;color:#fff}
 .edu-school{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--text-light);letter-spacing:.06em;margin-top:.3rem}
-
 .about-text p{font-family:'Cormorant Garamond',serif;font-size:1.22rem;font-weight:300;line-height:1.9;color:rgba(242,237,230,.72);margin-bottom:1.5rem}
 .about-text p strong{color:#fff;font-weight:600}
 
@@ -129,12 +96,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 .exp-section{background:rgba(255,255,255,.012);margin:0;max-width:100%}
 .exp-inner{max-width:1200px;margin:0 auto;padding:8rem 5rem}
 .exp-cards{display:flex;flex-direction:column;gap:1px;margin-top:4rem}
-
 .exp-card{background:rgba(8,7,15,.85);border:1px solid rgba(255,255,255,.05);display:grid;grid-template-columns:270px 1fr;position:relative;overflow:hidden;transition:border-color .4s,background .4s;cursor:default}
 .exp-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--rose),var(--violet));transform:scaleY(0);transform-origin:top;transition:transform .5s cubic-bezier(.4,0,.2,1)}
 .exp-card:hover{border-color:rgba(232,93,117,.18);background:rgba(232,93,117,.025)}
 .exp-card:hover::before{transform:scaleY(1)}
-
 .exp-left{padding:2.5rem;border-right:1px solid rgba(255,255,255,.05)}
 .exp-company{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:600;color:#fff;margin-bottom:.35rem}
 .exp-period{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--rose);letter-spacing:.1em;margin-bottom:1.2rem}
@@ -146,7 +111,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 .metric{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:.5rem .9rem}
 .metric-val{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--amber);display:block}
 .metric-lbl{font-family:'Space Mono',monospace;font-size:.52rem;color:rgba(242,237,230,.38);letter-spacing:.07em;text-transform:uppercase}
-
 .exp-right{padding:2.5rem}
 .exp-role{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:#fff;margin-bottom:1.4rem}
 .exp-list{list-style:none;display:flex;flex-direction:column;gap:.7rem}
@@ -165,8 +129,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 .skill-tile p{font-size:.83rem;color:rgba(242,237,230,.48);line-height:1.7}
 .skill-tile-icon{font-size:1.7rem;margin-bottom:.9rem;display:block}
 .skill-big{font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:700;font-style:italic;color:rgba(255,255,255,.03);position:absolute;bottom:-1rem;right:.8rem;line-height:1;pointer-events:none}
-
-/* PILLS — bigger and bolder */
 .pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
 .pill{font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;padding:.38rem .85rem;border:1.5px solid rgba(255,255,255,.2);color:rgba(242,237,230,.85);letter-spacing:.05em;transition:all .2s;background:rgba(255,255,255,.04)}
 .pill:hover{border-color:var(--teal);color:var(--teal);background:rgba(0,180,166,.06)}
@@ -196,30 +158,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 .proj-cta svg{transition:transform .3s}
 .proj-card:hover .proj-cta svg{transform:translateX(4px)}
 
-/* CHART CONTAINERS */
-.chart-wrap{margin:1.5rem 0 0;position:relative;width:100%;border-top:1px solid rgba(255,255,255,.05);padding-top:1.2rem}
-.chart-title{font-family:'Space Mono',monospace;font-size:.58rem;color:rgba(242,237,230,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.9rem}
-.funnel-bar-wrap{display:flex;flex-direction:column;gap:7px}
-.funnel-row{display:flex;align-items:center;gap:10px}
-.funnel-name{font-family:'Space Mono',monospace;font-size:.56rem;color:rgba(242,237,230,.38);width:74px;flex-shrink:0;text-align:right}
-.funnel-track{flex:1;background:rgba(255,255,255,.04);border-radius:2px;height:20px;position:relative;overflow:hidden}
-.funnel-fill{height:100%;border-radius:2px;display:flex;align-items:center;justify-content:flex-end;padding-right:7px;width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1)}
-.funnel-pct{font-family:'Space Mono',monospace;font-size:.56rem;color:rgba(255,255,255,.85)}
-.funnel-drop{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--rose);width:46px;flex-shrink:0}
-.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-.ba-col-label{font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(242,237,230,.35);letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-bottom:.5rem}
-.ba-bars{display:flex;flex-direction:column;gap:5px}
-.ba-bar-row{display:flex;align-items:center;gap:6px}
-.ba-bar-name{font-family:'Space Mono',monospace;font-size:.52rem;color:rgba(242,237,230,.38);width:28px;flex-shrink:0;text-align:right}
-.ba-track{flex:1;background:rgba(255,255,255,.04);border-radius:2px;height:15px;overflow:hidden}
-.ba-fill{height:100%;border-radius:2px;width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1)}
-.ba-val{font-family:'Space Mono',monospace;font-size:.52rem;color:rgba(242,237,230,.5);width:28px;flex-shrink:0}
-.donut-row{display:flex;align-items:center;gap:1.5rem}
-.donut-legend{display:flex;flex-direction:column;gap:.5rem;flex:1}
-.donut-legend-item{display:flex;align-items:center;gap:.5rem;font-family:'Space Mono',monospace;font-size:.56rem;color:rgba(242,237,230,.5)}
-.donut-legend-item b{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.donut-legend-val{margin-left:auto;color:rgba(242,237,230,.8)}
-
 /* CONTACT */
 .contact-wrap{background:var(--paper);color:var(--text-dark);position:relative;overflow:hidden;min-height:80vh;display:flex;align-items:center;justify-content:center}
 .contact-bg-txt{position:absolute;font-family:'Cormorant Garamond',serif;font-size:24vw;font-weight:700;font-style:italic;color:rgba(8,7,15,.055);white-space:nowrap;pointer-events:none;bottom:-3rem;left:50%;transform:translateX(-50%);line-height:1}
@@ -235,20 +173,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content
 .c-link{display:flex;align-items:center;gap:.6rem;font-family:'Space Mono',monospace;font-size:.65rem;color:var(--text-mid);text-decoration:none;letter-spacing:.1em;padding:.85rem 1.5rem;border:1px solid rgba(8,7,15,.12);transition:all .3s}
 .c-link:hover{background:var(--rose);color:#fff;border-color:var(--rose)}
 
-/* FOOTER */
-footer{background:var(--ink);padding:2rem 5rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.04)}
-footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.22);letter-spacing:.1em}
-
-/* REVEAL */
-.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
-.reveal.in{opacity:1;transform:none}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
-
 /* RESPONSIVE */
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
-@media(hover:none){.cur{display:none}#bgCanvas{display:none}}
 @media(max-width:960px){
   nav{padding:1.5rem 2rem}
   .hero-content{grid-template-columns:1fr;padding:8rem 2rem 3rem}
@@ -268,8 +193,6 @@ footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,2
 <body>
 
 <canvas id="bgCanvas"></canvas>
-<div class="cur" id="curDot" style="position:fixed;top:0;left:0"></div>
-<div class="cur" id="curRing" style="position:fixed;top:0;left:0"></div>
 
 <nav>
   <a href="index.html" class="nav-mark">Vrinda Parashar</a>
@@ -541,50 +464,11 @@ footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,2
 </div>
 
 <footer>
-  <p>© 2025 Vrinda Parashar · Built with care</p>
+  <p>© 2026 Vrinda Parashar · Built with care</p>
   <p>B.Sc. Computer Science (Hons) · Calcutta University</p>
 </footer>
 
-<script>
-/* CANVAS PARTICLES */
-const cvs=document.getElementById('bgCanvas'),ctx=cvs.getContext('2d');
-let W,H,pts=[];
-const COLS=['#e85d75','#00b4a6','#7c5cbf','#f7a325'];
-function resize(){W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight}
-resize();window.addEventListener('resize',resize);
-class P{
-  constructor(){this.reset()}
-  reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.35;this.vy=(Math.random()-.5)*.35;this.r=Math.random()*1.6+.4;this.col=COLS[Math.floor(Math.random()*4)];this.a=Math.random()*.5+.15}
-  update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}
-  draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.col+Math.floor(this.a*255).toString(16).padStart(2,'0');ctx.fill()}
-}
-for(let i=0;i<110;i++)pts.push(new P());
-function frame(){
-  ctx.clearRect(0,0,W,H);
-  for(let i=0;i<pts.length;i++){
-    pts[i].update();pts[i].draw();
-    for(let j=i+1;j<pts.length;j++){
-      const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
-      if(d<110){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(232,93,117,${.1*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke()}
-    }
-  }
-  requestAnimationFrame(frame);
-}
-frame();
-
-/* CURSOR */
-const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx-4+'px';dot.style.top=my-4+'px'});
-(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx-20+'px';ring.style.top=ry-20+'px';requestAnimationFrame(loop)})();
-document.querySelectorAll('a,button,.proj-card,.exp-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{dot.style.transform='translate(-50%,-50%) scale(3)';ring.style.width='60px';ring.style.height='60px';ring.style.borderColor='rgba(232,93,117,.75)'});
-  el.addEventListener('mouseleave',()=>{dot.style.transform='translate(-50%,-50%) scale(1)';ring.style.width='40px';ring.style.height='40px';ring.style.borderColor='rgba(232,93,117,.45)'});
-});
-
-/* SCROLL REVEAL */
-const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-</script>
+<script>window.PARTICLE_COUNT=110;window.PARTICLE_LINES=true</script>
+<script src="main.js"></script>
 </body>
 </html>
