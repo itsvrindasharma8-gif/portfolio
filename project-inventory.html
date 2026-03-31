@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inventory Monitoring Dashboard · Vrinda Parashar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#08070f;--paper:#f2ede6;--rose:#e85d75;--teal:#00b4a6;--amber:#f7a325;--violet:#7c5cbf}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:'Syne',sans-serif;overflow-x:hidden}
+#bgCanvas{position:fixed;inset:0;z-index:0;opacity:.35;pointer-events:none}
+.cur{position:fixed;pointer-events:none;z-index:9999}
+#curDot{width:8px;height:8px;background:var(--amber);border-radius:50%;transform:translate(-50%,-50%);transition:transform .15s}
+#curRing{width:40px;height:40px;border:1.5px solid rgba(247,163,37,.45);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.6rem 5rem;mix-blend-mode:difference}
+.nav-mark{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;font-weight:600;color:#fff;letter-spacing:.04em;text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.5);text-decoration:none;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:#fff}
+.proj-hero{min-height:55vh;display:flex;align-items:flex-end;padding:9rem 5rem 5rem;position:relative;overflow:hidden}
+.proj-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 40%,rgba(247,163,37,.1) 0%,transparent 65%)}
+.proj-eyebrow{display:flex;align-items:center;gap:1rem;font-family:'Space Mono',monospace;font-size:.62rem;color:var(--amber);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp .8s .2s both}
+.proj-eyebrow-line{width:2rem;height:1px;background:var(--amber)}
+.proj-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:700;line-height:1;color:#fff;margin-bottom:1.5rem;animation:fadeUp .9s .35s both}
+.proj-title em{font-style:italic;color:var(--amber)}
+.proj-tags{display:flex;gap:.5rem;flex-wrap:wrap;animation:fadeUp .8s .5s both}
+.ptag{font-family:'Space Mono',monospace;font-size:.56rem;padding:.3rem .7rem;letter-spacing:.05em;background:rgba(247,163,37,.08);border:1px solid rgba(247,163,37,.2);color:rgba(247,163,37,.8)}
+.proj-body{max-width:1100px;margin:0 auto;padding:6rem 5rem;position:relative;z-index:1}
+.proj-section{margin-bottom:5rem}
+.proj-section-label{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--amber);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem}
+.proj-section-label::before{content:'';width:1.5rem;height:1px;background:var(--amber)}
+.proj-section h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:#fff;margin-bottom:1.5rem;line-height:1.15}
+.proj-section p{font-family:'Cormorant Garamond',serif;font-size:1.12rem;line-height:1.9;color:rgba(242,237,230,.68);margin-bottom:1.2rem}
+.proj-section p strong{color:#fff;font-weight:600}
+.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);margin:3rem 0;animation:fadeUp .8s .4s both}
+.metric-block{background:var(--ink);padding:2.5rem 2rem;text-align:center}
+.metric-big{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:700;color:var(--amber);display:block;line-height:1}
+.metric-desc{font-family:'Space Mono',monospace;font-size:.58rem;color:rgba(242,237,230,.35);letter-spacing:.1em;text-transform:uppercase;margin-top:.5rem;display:block}
+/* SKU Chart */
+.sku-chart-wrap{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:2.5rem;margin:2rem 0}
+.chart-title{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.5rem}
+.sku-bars{display:flex;align-items:flex-end;gap:8px;height:120px;padding-bottom:.5rem}
+.sku-bar-col{display:flex;flex-direction:column;align-items:center;flex:1;gap:.4rem;height:100%}
+.sku-bar-track{flex:1;width:100%;display:flex;align-items:flex-end}
+.sku-bar{width:100%;border-radius:3px 3px 0 0;transition:height 1.4s cubic-bezier(.4,0,.2,1);height:0;position:relative}
+.sku-bar.alert{position:relative}
+.sku-bar.alert::after{content:'!';position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:.6rem;color:var(--amber);font-weight:700}
+.sku-label{font-family:'Space Mono',monospace;font-size:.5rem;color:rgba(242,237,230,.35)}
+.sku-legend{display:flex;gap:1.5rem;margin-top:1.5rem;font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(242,237,230,.35)}
+.sku-legend span{display:flex;align-items:center;gap:.4rem}
+.sku-legend b{display:inline-block;width:10px;height:2px}
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.05);margin:2rem 0}
+.insight-card{background:var(--ink);padding:2rem;border-top:2px solid}
+.insight-card.c1{border-color:var(--amber)}
+.insight-card.c2{border-color:var(--teal)}
+.insight-card.c3{border-color:var(--rose)}
+.insight-card.c4{border-color:var(--violet)}
+.insight-card h4{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:#fff;margin-bottom:.7rem}
+.insight-card p{font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgba(242,237,230,.58);line-height:1.75}
+.outcome-block{background:linear-gradient(135deg,rgba(247,163,37,.08),rgba(232,93,117,.05));border:1px solid rgba(247,163,37,.15);padding:3rem;margin:2rem 0;position:relative}
+.outcome-block::before{content:'OUTCOME';position:absolute;top:1.5rem;right:1.5rem;font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(247,163,37,.3);letter-spacing:.2em}
+.outcome-block h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:#fff;margin-bottom:.8rem}
+.outcome-block p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.85;color:rgba(242,237,230,.65)}
+.proj-nav{display:flex;justify-content:space-between;align-items:center;padding:3rem 0;border-top:1px solid rgba(255,255,255,.06);margin-top:4rem}
+.proj-nav a{font-family:'Space Mono',monospace;font-size:.65rem;color:rgba(242,237,230,.4);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;display:flex;align-items:center;gap:.5rem}
+.proj-nav a:hover{color:var(--amber)}
+.proj-nav .next-proj h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#fff;margin-top:.4rem;text-align:right}
+footer{background:var(--ink);padding:2rem 5rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.04)}
+footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.22);letter-spacing:.1em}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@media(max-width:768px){nav{padding:1.5rem 2rem}.proj-hero{padding:8rem 2rem 4rem}.proj-body{padding:4rem 2rem}.metrics-row{grid-template-columns:1fr}.insight-grid{grid-template-columns:1fr}.proj-nav{flex-direction:column;gap:2rem}footer{padding:2rem;flex-direction:column;gap:.5rem;text-align:center}}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="cur" id="curDot" style="position:fixed;top:0;left:0"></div>
+<div class="cur" id="curRing" style="position:fixed;top:0;left:0"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark">Vrinda Parashar</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#experience">Experience</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="proj-hero">
+  <div class="proj-hero-bg"></div>
+  <div style="position:relative;z-index:2;max-width:800px">
+    <div class="proj-eyebrow"><span class="proj-eyebrow-line"></span>Project 03 · Dashboard Design</div>
+    <h1 class="proj-title">Automated Inventory<br><em>Monitoring</em> Dashboard</h1>
+    <div class="proj-tags">
+      <span class="ptag">Dashboard Design</span>
+      <span class="ptag">SKU Analysis</span>
+      <span class="ptag">Inventory Planning</span>
+      <span class="ptag">Automation</span>
+      <span class="ptag">Power BI</span>
+    </div>
+  </div>
+</div>
+
+<div class="proj-body">
+
+  <div class="metrics-row reveal">
+    <div class="metric-block">
+      <span class="metric-big">35K+</span>
+      <span class="metric-desc">SKUs Monitored</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big">0</span>
+      <span class="metric-desc">Reactive Restocking Incidents Post-Launch</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big" style="color:var(--teal)">Live</span>
+      <span class="metric-desc">Real-time Refresh · Auto Alerts</span>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">The Problem</div>
+    <h2>Stockouts were costing revenue invisibly</h2>
+    <p>With 35,000+ SKUs across multiple categories, RedTape's inventory team was operating reactively — replenishment decisions arrived after stockouts had already occurred. Fast-moving SKUs would fall below safe levels without warning, leading to lost sales, delayed fulfilment, and downstream logistics strain.</p>
+    <p>The ask was to build an <strong>automated monitoring dashboard</strong> that would surface at-risk SKUs before stockout — not after — and eliminate the manual effort of checking hundreds of product lines daily.</p>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">SKU Stock Visualisation</div>
+    <h2>Seeing stock levels at a glance</h2>
+    <div class="sku-chart-wrap" id="skuWrap">
+      <div class="chart-title">Current stock vs reorder threshold by SKU</div>
+      <div class="sku-bars">
+        <div class="sku-bar-col">
+          <div class="sku-bar-track"><div class="sku-bar" style="background:rgba(0,180,166,.75)" data-h="85"></div></div>
+          <div class="sku-label">SKU-A</div>
+        </div>
+        <div class="sku-bar-col">
+          <div class="sku-bar-track"><div class="sku-bar" style="background:rgba(0,180,166,.75)" data-h="42"></div></div>
+          <div class="sku-label">SKU-B</div>
+        </div>
+        <div class="sku-bar-col">
+          <div class="sku-bar-track"><div class="sku-bar alert" style="background:rgba(247,163,37,.75)" data-h="16"></div></div>
+          <div class="sku-label">SKU-C</div>
+        </div>
+        <div class="sku-bar-col">
+          <div class="sku-bar-track"><div class="sku-bar" style="background:rgba(0,180,166,.75)" data-h="73"></div></div>
+          <div class="sku-label">SKU-D</div>
+        </div>
+        <div class="sku-bar-col">
+          <div class="sku-bar-track"><div class="sku-bar alert" style="background:rgba(247,163,37,.75)" data-h="8"></div></div>
+          <div class="sku-label">SKU-E</div>
+        </div>
+        <div class="sku-bar-col">
+          <div class="sku-bar-track"><div class="sku-bar" style="background:rgba(0,180,166,.75)" data-h="58"></div></div>
+          <div class="sku-label">SKU-F</div>
+        </div>
+      </div>
+      <div class="sku-legend">
+        <span><b style="background:#00b4a6;height:10px;border-radius:1px"></b>Stock Level</span>
+        <span><b style="background:rgba(232,93,117,.6);border-top:1px dashed var(--rose)"></b>Reorder Threshold</span>
+        <span><b style="background:var(--amber);border-radius:50%;height:10px;width:10px"></b>Alert Triggered</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Design Features</div>
+    <h2>How the dashboard works</h2>
+    <div class="insight-grid">
+      <div class="insight-card c1">
+        <h4>Dynamic Reorder Alerts</h4>
+        <p>SKUs falling below calculated reorder points trigger colour-coded alerts — amber for approaching, red for critical — visible immediately on dashboard load.</p>
+      </div>
+      <div class="insight-card c2">
+        <h4>Velocity-Based Thresholds</h4>
+        <p>Reorder points are not static. They adapt to rolling 30-day sales velocity per SKU, ensuring seasonal fast-movers trigger alerts earlier than slow-moving lines.</p>
+      </div>
+      <div class="insight-card c3">
+        <h4>Category Drill-Down</h4>
+        <p>Users can filter by product category, warehouse location, or supplier — enabling targeted replenishment decisions without scrolling through the full 35K+ SKU list.</p>
+      </div>
+      <div class="insight-card c4">
+        <h4>Automated Refresh</h4>
+        <p>Dashboard data refreshes on a scheduled basis, meaning the inventory team see accurate stock positions without any manual data exports or pivot table maintenance.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Technical Build</div>
+    <h2>Under the hood</h2>
+    <p>The core logic was built on <strong>SQL queries that joined inventory tables with sales velocity data</strong>, computing a rolling average daily sales rate per SKU and multiplying by a safety buffer (typically 7-14 days lead time) to derive the reorder point.</p>
+    <p>This was connected to a <strong>Power BI dataset</strong> with scheduled refresh, surfaced through a dashboard that non-technical stakeholders could read and act on without training. Alert logic was encoded directly in DAX measures, enabling colour rules and summary tables to update automatically.</p>
+  </div>
+
+  <div class="outcome-block reveal">
+    <h3>Reactive restocking eliminated</h3>
+    <p>After launch, the inventory team shifted from fire-fighting individual stockouts to proactive weekly planning driven by dashboard alerts. Fast-moving SKUs were replenished ahead of need, reducing fulfilment delays and enabling more confident promotional planning around peak periods.</p>
+  </div>
+
+  <div class="proj-nav">
+    <a href="project-sales.html">← Previous: Sales Forecasting</a>
+    <div class="next-proj">
+      <a href="project-bakery.html" style="flex-direction:column;align-items:flex-end">
+        <span>Next Project →</span>
+        <h4>Bakery Management System</h4>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 Vrinda Parashar · Built with care</p>
+  <p>B.Sc. Computer Science (Hons) · Calcutta University</p>
+</footer>
+
+<script>
+const cvs=document.getElementById('bgCanvas'),ctx=cvs.getContext('2d');
+let W,H,pts=[];
+const COLS=['#f7a325','#00b4a6','#e85d75','#7c5cbf'];
+function resize(){W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+class P{constructor(){this.reset()}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.35;this.vy=(Math.random()-.5)*.35;this.r=Math.random()*1.6+.4;this.col=COLS[Math.floor(Math.random()*4)];this.a=Math.random()*.5+.15}update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.col+Math.floor(this.a*255).toString(16).padStart(2,'0');ctx.fill()}}
+for(let i=0;i<80;i++)pts.push(new P());
+function frame(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.update();p.draw()});requestAnimationFrame(frame)}
+frame();
+const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx-4+'px';dot.style.top=my-4+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx-20+'px';ring.style.top=ry-20+'px';requestAnimationFrame(loop)})();
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+const skuObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.sku-bar').forEach(bar=>{const pct=bar.dataset.h||0;bar.style.height=pct+'%'});skuObs.unobserve(e.target);}})},{threshold:.3});
+document.querySelectorAll('#skuWrap').forEach(el=>skuObs.observe(el));
+</script>
+</body>
+</html>

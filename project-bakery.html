@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bakery Management System · Vrinda Parashar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#08070f;--paper:#f2ede6;--rose:#e85d75;--teal:#00b4a6;--amber:#f7a325;--violet:#7c5cbf}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:'Syne',sans-serif;overflow-x:hidden}
+#bgCanvas{position:fixed;inset:0;z-index:0;opacity:.35;pointer-events:none}
+.cur{position:fixed;pointer-events:none;z-index:9999}
+#curDot{width:8px;height:8px;background:var(--violet);border-radius:50%;transform:translate(-50%,-50%);transition:transform .15s}
+#curRing{width:40px;height:40px;border:1.5px solid rgba(124,92,191,.45);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.6rem 5rem;mix-blend-mode:difference}
+.nav-mark{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;font-weight:600;color:#fff;letter-spacing:.04em;text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.5);text-decoration:none;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:#fff}
+.proj-hero{min-height:55vh;display:flex;align-items:flex-end;padding:9rem 5rem 5rem;position:relative;overflow:hidden}
+.proj-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 30% 60%,rgba(124,92,191,.12) 0%,transparent 65%)}
+.proj-eyebrow{display:flex;align-items:center;gap:1rem;font-family:'Space Mono',monospace;font-size:.62rem;color:var(--violet);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp .8s .2s both}
+.proj-eyebrow-line{width:2rem;height:1px;background:var(--violet)}
+.proj-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:700;line-height:1;color:#fff;margin-bottom:1.5rem;animation:fadeUp .9s .35s both}
+.proj-title em{font-style:italic;color:var(--violet)}
+.proj-tags{display:flex;gap:.5rem;flex-wrap:wrap;animation:fadeUp .8s .5s both}
+.ptag{font-family:'Space Mono',monospace;font-size:.56rem;padding:.3rem .7rem;letter-spacing:.05em;background:rgba(124,92,191,.08);border:1px solid rgba(124,92,191,.2);color:rgba(124,92,191,.85)}
+.proj-body{max-width:1100px;margin:0 auto;padding:6rem 5rem;position:relative;z-index:1}
+.proj-section{margin-bottom:5rem}
+.proj-section-label{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--violet);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem}
+.proj-section-label::before{content:'';width:1.5rem;height:1px;background:var(--violet)}
+.proj-section h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:#fff;margin-bottom:1.5rem;line-height:1.15}
+.proj-section p{font-family:'Cormorant Garamond',serif;font-size:1.12rem;line-height:1.9;color:rgba(242,237,230,.68);margin-bottom:1.2rem}
+.proj-section p strong{color:#fff;font-weight:600}
+.metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);margin:3rem 0;animation:fadeUp .8s .4s both}
+.metric-block{background:var(--ink);padding:2rem;text-align:center}
+.metric-big{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:700;color:var(--violet);display:block;line-height:1}
+.metric-desc{font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(242,237,230,.35);letter-spacing:.1em;text-transform:uppercase;margin-top:.5rem;display:block}
+/* Donut + stack bars */
+.order-viz{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:2.5rem;margin:2rem 0;display:grid;grid-template-columns:200px 1fr;gap:3rem;align-items:center}
+.donut-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem}
+.donut-legend{display:flex;flex-direction:column;gap:.5rem;width:100%}
+.donut-item{display:flex;align-items:center;gap:.6rem;font-family:'Space Mono',monospace;font-size:.56rem;color:rgba(242,237,230,.5)}
+.donut-item b{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.donut-val{margin-left:auto;color:rgba(242,237,230,.8)}
+.stack-section{}
+.chart-title{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1rem}
+.stack-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.65rem}
+.stack-name{font-family:'Space Mono',monospace;font-size:.56rem;color:rgba(242,237,230,.38);width:56px;flex-shrink:0;text-align:right}
+.stack-track{flex:1;background:rgba(255,255,255,.04);height:22px;border-radius:2px;overflow:hidden}
+.stack-fill{height:100%;border-radius:2px;width:0;transition:width 1.6s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:flex-end;padding-right:7px}
+.stack-pct{font-family:'Space Mono',monospace;font-size:.56rem;color:rgba(255,255,255,.85)}
+/* Feature grid */
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.05);margin:2rem 0}
+.feature-card{background:var(--ink);padding:2rem;border-top:2px solid}
+.feature-card:nth-child(1){border-color:var(--violet)}
+.feature-card:nth-child(2){border-color:var(--rose)}
+.feature-card:nth-child(3){border-color:var(--teal)}
+.feature-card:nth-child(4){border-color:var(--amber)}
+.feature-card:nth-child(5){border-color:var(--violet)}
+.feature-card:nth-child(6){border-color:var(--rose)}
+.feature-card h4{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:#fff;margin-bottom:.7rem}
+.feature-card p{font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgba(242,237,230,.58);line-height:1.75}
+.outcome-block{background:linear-gradient(135deg,rgba(124,92,191,.08),rgba(0,180,166,.05));border:1px solid rgba(124,92,191,.15);padding:3rem;margin:2rem 0;position:relative}
+.outcome-block::before{content:'OUTCOME';position:absolute;top:1.5rem;right:1.5rem;font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(124,92,191,.3);letter-spacing:.2em}
+.outcome-block h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:#fff;margin-bottom:.8rem}
+.outcome-block p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.85;color:rgba(242,237,230,.65)}
+.proj-nav{display:flex;justify-content:space-between;align-items:center;padding:3rem 0;border-top:1px solid rgba(255,255,255,.06);margin-top:4rem}
+.proj-nav a{font-family:'Space Mono',monospace;font-size:.65rem;color:rgba(242,237,230,.4);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;display:flex;align-items:center;gap:.5rem}
+.proj-nav a:hover{color:var(--violet)}
+footer{background:var(--ink);padding:2rem 5rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.04)}
+footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.22);letter-spacing:.1em}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@media(max-width:768px){nav{padding:1.5rem 2rem}.proj-hero{padding:8rem 2rem 4rem}.proj-body{padding:4rem 2rem}.metrics-row{grid-template-columns:1fr 1fr}.order-viz{grid-template-columns:1fr}.feature-grid{grid-template-columns:1fr}.proj-nav{flex-direction:column;gap:2rem}footer{padding:2rem;flex-direction:column;gap:.5rem;text-align:center}}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="cur" id="curDot" style="position:fixed;top:0;left:0"></div>
+<div class="cur" id="curRing" style="position:fixed;top:0;left:0"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark">Vrinda Parashar</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#experience">Experience</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="proj-hero">
+  <div class="proj-hero-bg"></div>
+  <div style="position:relative;z-index:2;max-width:800px">
+    <div class="proj-eyebrow"><span class="proj-eyebrow-line"></span>Project 04 · Full-Stack Development</div>
+    <h1 class="proj-title">Bakery<br><em>Management</em> System</h1>
+    <div class="proj-tags">
+      <span class="ptag">PHP</span>
+      <span class="ptag">MySQL</span>
+      <span class="ptag">HTML / CSS</span>
+      <span class="ptag">JavaScript</span>
+      <span class="ptag">Full-Stack</span>
+    </div>
+  </div>
+</div>
+
+<div class="proj-body">
+
+  <div class="metrics-row reveal">
+    <div class="metric-block">
+      <span class="metric-big">Full</span>
+      <span class="metric-desc">Stack Built from Scratch</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big">4</span>
+      <span class="metric-desc">Core Modules Delivered</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big" style="color:var(--teal)">Secure</span>
+      <span class="metric-desc">Auth + Session Management</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big" style="color:var(--rose)">100%</span>
+      <span class="metric-desc">Responsive UI</span>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Overview</div>
+    <h2>Building an ordering platform end-to-end</h2>
+    <p>This project involved designing and developing a complete <strong>database-driven ordering system</strong> for a bakery — from relational database design through to a customer-facing, responsive UI. Every layer was built from scratch: no CMS, no frameworks, no shortcuts.</p>
+    <p>The system handles the full customer journey — browsing, ordering, user account management — while giving administrators a separate panel for order management, product updates, and reporting.</p>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Order Breakdown</div>
+    <h2>Category mix and tech distribution</h2>
+    <div class="order-viz" id="orderViz">
+      <div class="donut-wrap">
+        <canvas id="donutCanvas" width="110" height="110"></canvas>
+        <div class="donut-legend">
+          <div class="donut-item"><b style="background:#e85d75"></b>Cakes<span class="donut-val">38%</span></div>
+          <div class="donut-item"><b style="background:#7c5cbf"></b>Pastries<span class="donut-val">27%</span></div>
+          <div class="donut-item"><b style="background:#00b4a6"></b>Breads<span class="donut-val">21%</span></div>
+          <div class="donut-item"><b style="background:#f7a325"></b>Specials<span class="donut-val">14%</span></div>
+        </div>
+      </div>
+      <div class="stack-section">
+        <div class="chart-title">Tech stack distribution by codebase weight</div>
+        <div class="stack-row"><div class="stack-name">PHP</div><div class="stack-track"><div class="stack-fill" style="background:rgba(124,92,191,.7)" data-w="72"><span class="stack-pct">72%</span></div></div></div>
+        <div class="stack-row"><div class="stack-name">MySQL</div><div class="stack-track"><div class="stack-fill" style="background:rgba(0,180,166,.7)" data-w="58"><span class="stack-pct">58%</span></div></div></div>
+        <div class="stack-row"><div class="stack-name">JS/CSS</div><div class="stack-track"><div class="stack-fill" style="background:rgba(247,163,37,.7)" data-w="45"><span class="stack-pct">45%</span></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Features Built</div>
+    <h2>What the system does</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h4>Customer Ordering</h4>
+        <p>Browse products by category, add to cart, apply quantities, and place orders with real-time stock validation and instant confirmation.</p>
+      </div>
+      <div class="feature-card">
+        <h4>User Authentication</h4>
+        <p>Secure registration, login, and session management with hashed passwords, CSRF protection, and role-based access for customers vs admins.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Admin Panel</h4>
+        <p>Dedicated backend for managing orders, updating product listings and pricing, viewing order history, and generating simple sales summaries.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Database Design</h4>
+        <p>Relational MySQL schema with normalised tables for users, products, orders, and order_items — supporting efficient queries and referential integrity.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Responsive UI</h4>
+        <p>Fully mobile-responsive front end built in pure HTML/CSS/JS — no frameworks. Designed to work cleanly across screen sizes without degradation.</p>
+      </div>
+      <div class="feature-card">
+        <h4>Order Tracking</h4>
+        <p>Customers can view current order status through their account dashboard. Admins can update order stages (received, baking, ready, delivered) in real time.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Technical Approach</div>
+    <h2>How it was architected</h2>
+    <p>The application was built on a <strong>PHP MVC-style structure</strong> — routing incoming requests through a central controller, with clean separation of data logic, business rules, and presentation templates. This made the codebase maintainable and easy to extend without full rewrites.</p>
+    <p><strong>MySQL</strong> handled all persistent storage, with prepared statements throughout the PHP layer to prevent SQL injection. Sessions were managed server-side, with role flags stored in session data to control view rendering and admin access permissions.</p>
+    <p>The front end was written in semantic <strong>HTML5 and CSS3</strong> with vanilla JavaScript for cart interactions and form validation — deliberately avoiding framework dependencies to keep the project lightweight and fully within my control.</p>
+  </div>
+
+  <div class="outcome-block reveal">
+    <h3>End-to-end full-stack delivery</h3>
+    <p>The completed system demonstrated the ability to conceive, design, and ship a multi-user web application independently — handling database architecture, server-side logic, authentication, and responsive UI within a single cohesive codebase. It remains the clearest proof of full-stack capability in this portfolio.</p>
+  </div>
+
+  <div class="proj-nav">
+    <a href="project-inventory.html">← Previous: Inventory Dashboard</a>
+    <a href="index.html#projects">All Projects ↗</a>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 Vrinda Parashar · Built with care</p>
+  <p>B.Sc. Computer Science (Hons) · Calcutta University</p>
+</footer>
+
+<script>
+const cvs=document.getElementById('bgCanvas'),ctx2=cvs.getContext('2d');
+let W,H,pts=[];
+const COLS=['#7c5cbf','#e85d75','#00b4a6','#f7a325'];
+function resize(){W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+class P{constructor(){this.reset()}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.35;this.vy=(Math.random()-.5)*.35;this.r=Math.random()*1.6+.4;this.col=COLS[Math.floor(Math.random()*4)];this.a=Math.random()*.5+.15}update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}draw(){ctx2.beginPath();ctx2.arc(this.x,this.y,this.r,0,Math.PI*2);ctx2.fillStyle=this.col+Math.floor(this.a*255).toString(16).padStart(2,'0');ctx2.fill()}}
+for(let i=0;i<80;i++)pts.push(new P());
+function frame(){ctx2.clearRect(0,0,W,H);pts.forEach(p=>{p.update();p.draw()});requestAnimationFrame(frame)}
+frame();
+
+// Donut
+function drawDonut(){
+  const c=document.getElementById('donutCanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const cx=55,cy=55,r=44,inner=26;
+  const slices=[{pct:.38,color:'#e85d75'},{pct:.27,color:'#7c5cbf'},{pct:.21,color:'#00b4a6'},{pct:.14,color:'#f7a325'}];
+  let angle=-Math.PI/2;
+  slices.forEach(s=>{const end=angle+s.pct*Math.PI*2;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,angle,end);ctx.closePath();ctx.fillStyle=s.color;ctx.fill();angle=end;});
+  ctx.beginPath();ctx.arc(cx,cy,inner,0,Math.PI*2);ctx.fillStyle='#08070f';ctx.fill();
+}
+window.addEventListener('load',drawDonut);
+
+const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx-4+'px';dot.style.top=my-4+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx-20+'px';ring.style.top=ry-20+'px';requestAnimationFrame(loop)})();
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+const stackObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.stack-fill').forEach(bar=>{bar.style.width=(bar.dataset.w||0)+'%'});stackObs.unobserve(e.target);}})},{threshold:.3});
+document.querySelectorAll('#orderViz').forEach(el=>stackObs.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-commerce Funnel Analysis · Vrinda Parashar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#08070f;--paper:#f2ede6;--rose:#e85d75;--teal:#00b4a6;--amber:#f7a325;--violet:#7c5cbf;--accent:#e85d75}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:'Syne',sans-serif;overflow-x:hidden}
+#bgCanvas{position:fixed;inset:0;z-index:0;opacity:.35;pointer-events:none}
+.cur{position:fixed;pointer-events:none;z-index:9999}
+#curDot{width:8px;height:8px;background:var(--rose);border-radius:50%;transform:translate(-50%,-50%);transition:transform .15s}
+#curRing{width:40px;height:40px;border:1.5px solid rgba(232,93,117,.45);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.6rem 5rem;mix-blend-mode:difference}
+.nav-mark{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;font-weight:600;color:#fff;letter-spacing:.04em;text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.5);text-decoration:none;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:#fff}
+.back-link{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.5);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;transition:color .3s}
+.back-link:hover{color:#fff}
+
+/* HERO */
+.proj-hero{min-height:55vh;display:flex;align-items:flex-end;padding:0 5rem 5rem;position:relative;overflow:hidden}
+.proj-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 20% 50%,rgba(232,93,117,.15) 0%,transparent 65%)}
+.proj-hero-content{position:relative;z-index:2;max-width:800px}
+.proj-eyebrow{display:flex;align-items:center;gap:1rem;font-family:'Space Mono',monospace;font-size:.62rem;color:var(--rose);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp .8s .2s both}
+.proj-eyebrow-line{width:2rem;height:1px;background:var(--rose)}
+.proj-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:700;line-height:1;color:#fff;margin-bottom:1.5rem;animation:fadeUp .9s .35s both}
+.proj-title em{font-style:italic;color:var(--rose)}
+.proj-tags{display:flex;gap:.5rem;flex-wrap:wrap;animation:fadeUp .8s .5s both}
+.ptag{font-family:'Space Mono',monospace;font-size:.56rem;padding:.3rem .7rem;letter-spacing:.05em;background:rgba(232,93,117,.08);border:1px solid rgba(232,93,117,.2);color:rgba(232,93,117,.8)}
+
+/* BODY */
+.proj-body{max-width:1100px;margin:0 auto;padding:6rem 5rem;position:relative;z-index:1}
+.proj-section{margin-bottom:5rem}
+.proj-section-label{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--rose);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem}
+.proj-section-label::before{content:'';width:1.5rem;height:1px;background:var(--rose)}
+.proj-section h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:#fff;margin-bottom:1.5rem;line-height:1.15}
+.proj-section p{font-family:'Cormorant Garamond',serif;font-size:1.12rem;line-height:1.9;color:rgba(242,237,230,.68);margin-bottom:1.2rem}
+.proj-section p strong{color:#fff;font-weight:600}
+
+/* METRICS ROW */
+.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.06);margin:3rem 0;animation:fadeUp .8s .4s both}
+.metric-block{background:var(--ink);padding:2.5rem 2rem;text-align:center}
+.metric-big{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:700;color:var(--rose);display:block;line-height:1}
+.metric-desc{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.35);letter-spacing:.1em;text-transform:uppercase;margin-top:.5rem;display:block}
+
+/* FUNNEL VIS */
+.funnel-visual{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:2.5rem;margin:2rem 0}
+.funnel-stage{display:flex;align-items:center;gap:1.5rem;margin-bottom:1rem}
+.stage-label{font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(242,237,230,.5);width:100px;flex-shrink:0;text-align:right}
+.stage-bar-wrap{flex:1;background:rgba(255,255,255,.04);height:36px;position:relative;overflow:hidden}
+.stage-bar{height:100%;display:flex;align-items:center;justify-content:flex-end;padding-right:1rem;transition:width 1.6s cubic-bezier(.4,0,.2,1);width:0}
+.stage-pct{font-family:'Space Mono',monospace;font-size:.65rem;color:#fff;font-weight:600}
+.stage-drop{font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(242,237,230,.35);width:55px;flex-shrink:0}
+.stage-drop.warn{color:var(--rose);font-weight:600}
+
+/* INSIGHT CARDS */
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.05);margin:2rem 0}
+.insight-card{background:var(--ink);padding:2rem;border-top:2px solid transparent}
+.insight-card.c1{border-color:var(--rose)}
+.insight-card.c2{border-color:var(--teal)}
+.insight-card.c3{border-color:var(--amber)}
+.insight-card.c4{border-color:var(--violet)}
+.insight-card h4{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:#fff;margin-bottom:.7rem;letter-spacing:.04em}
+.insight-card p{font-family:'Cormorant Garamond',serif;font-size:1rem;color:rgba(242,237,230,.58);line-height:1.75}
+
+/* OUTCOME */
+.outcome-block{background:linear-gradient(135deg,rgba(232,93,117,.08),rgba(124,92,191,.06));border:1px solid rgba(232,93,117,.15);padding:3rem;margin:2rem 0;position:relative;overflow:hidden}
+.outcome-block::before{content:'OUTCOME';position:absolute;top:1.5rem;right:1.5rem;font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(232,93,117,.3);letter-spacing:.2em}
+.outcome-block h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:#fff;margin-bottom:.8rem}
+.outcome-block p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.85;color:rgba(242,237,230,.65)}
+
+/* NAV BOTTOM */
+.proj-nav{display:flex;justify-content:space-between;align-items:center;padding:3rem 0;border-top:1px solid rgba(255,255,255,.06);margin-top:4rem}
+.proj-nav a{font-family:'Space Mono',monospace;font-size:.65rem;color:rgba(242,237,230,.4);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;display:flex;align-items:center;gap:.5rem}
+.proj-nav a:hover{color:var(--rose)}
+.proj-nav .next-proj h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#fff;margin-top:.4rem;text-align:right}
+
+footer{background:var(--ink);padding:2rem 5rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.04)}
+footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.22);letter-spacing:.1em}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+@media(max-width:768px){nav{padding:1.5rem 2rem}.proj-hero{padding:0 2rem 4rem}.proj-body{padding:4rem 2rem}.metrics-row{grid-template-columns:1fr}.insight-grid{grid-template-columns:1fr}.proj-nav{flex-direction:column;gap:2rem}footer{padding:2rem;flex-direction:column;gap:.5rem;text-align:center}}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="cur" id="curDot" style="position:fixed;top:0;left:0"></div>
+<div class="cur" id="curRing" style="position:fixed;top:0;left:0"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark">Vrinda Parashar</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#experience">Experience</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="proj-hero" style="padding-top:9rem">
+  <div class="proj-hero-bg"></div>
+  <div class="proj-hero-content">
+    <div class="proj-eyebrow"><span class="proj-eyebrow-line"></span>Project 01 · Data Analytics</div>
+    <h1 class="proj-title">E-commerce Funnel<br>&amp; <em>Conversion</em> Analysis</h1>
+    <div class="proj-tags">
+      <span class="ptag">SQL</span>
+      <span class="ptag">Power BI</span>
+      <span class="ptag">Funnel Analysis</span>
+      <span class="ptag">Behavioural Segmentation</span>
+      <span class="ptag">GA4</span>
+    </div>
+  </div>
+</div>
+
+<div class="proj-body">
+
+  <div class="metrics-row reveal">
+    <div class="metric-block">
+      <span class="metric-big">100K+</span>
+      <span class="metric-desc">Transaction Records Analysed</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big">36%</span>
+      <span class="metric-desc">Checkout Drop-off Identified</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big">+2.5%</span>
+      <span class="metric-desc">Conversion Rate Uplift</span>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Overview</div>
+    <h2>What the project set out to solve</h2>
+    <p>RedTape's e-commerce platform was generating significant traffic but converting a far smaller proportion than industry benchmarks suggested was possible. The task was to move beyond surface-level page metrics and conduct a granular, stage-by-stage funnel analysis to pinpoint exactly where users were abandoning their journeys — and why.</p>
+    <p>Using <strong>100,000+ monthly transaction records</strong> extracted via SQL, I built a behavioural segmentation model that mapped sessions from first touch to final purchase, flagging statistical anomalies at every step of the funnel.</p>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">The Funnel</div>
+    <h2>Where users dropped off</h2>
+    <div class="funnel-visual" id="funnelVis">
+      <div class="funnel-stage">
+        <div class="stage-label">Sessions</div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="background:linear-gradient(90deg,#e85d75,#c4435a)" data-w="100"><span class="stage-pct">100%</span></div></div>
+        <div class="stage-drop"></div>
+      </div>
+      <div class="funnel-stage">
+        <div class="stage-label">Product View</div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="background:linear-gradient(90deg,#d44f67,#b03454)" data-w="78"><span class="stage-pct">78%</span></div></div>
+        <div class="stage-drop" style="color:rgba(242,237,230,.4)">-22%</div>
+      </div>
+      <div class="funnel-stage">
+        <div class="stage-label">Add to Cart</div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="background:linear-gradient(90deg,#b84060,#924)" data-w="54"><span class="stage-pct">54%</span></div></div>
+        <div class="stage-drop" style="color:rgba(242,237,230,.4)">-24%</div>
+      </div>
+      <div class="funnel-stage">
+        <div class="stage-label">Checkout</div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="background:linear-gradient(90deg,var(--rose),#7c5cbf)" data-w="38"><span class="stage-pct">38%</span></div></div>
+        <div class="stage-drop warn">-36% !</div>
+      </div>
+      <div class="funnel-stage">
+        <div class="stage-label">Purchase</div>
+        <div class="stage-bar-wrap"><div class="stage-bar" style="background:linear-gradient(90deg,#f7a325,#e85d75)" data-w="24"><span class="stage-pct">24%</span></div></div>
+        <div class="stage-drop" style="color:rgba(242,237,230,.4)">-14%</div>
+      </div>
+    </div>
+    <p>The most significant finding was the <strong>36% drop between cart and checkout</strong> — nearly double the standard industry attrition at that stage. This was the critical intervention point.</p>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Key Insights</div>
+    <h2>What the data told us</h2>
+    <div class="insight-grid">
+      <div class="insight-card c1">
+        <h4>Checkout Friction</h4>
+        <p>Form abandonment was concentrated in the address and payment fields. Mobile users showed 2.3x higher exit rates at this stage than desktop users.</p>
+      </div>
+      <div class="insight-card c2">
+        <h4>Payment Method Bias</h4>
+        <p>COD selection caused a secondary abandonment loop — users selecting COD converted 40% less than prepaid users, inflating RTO rates simultaneously.</p>
+      </div>
+      <div class="insight-card c3">
+        <h4>Session Quality Signals</h4>
+        <p>Users from organic search had 1.8x higher funnel completion vs paid traffic. SEO-driven sessions showed stronger purchase intent from first touch.</p>
+      </div>
+      <div class="insight-card c4">
+        <h4>Category Patterns</h4>
+        <p>Footwear had 12% better funnel completion than apparel. Price-point sensitivity analysis showed bundles outperformed individual SKUs by 18%.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Methodology</div>
+    <h2>How the analysis was built</h2>
+    <p>All data was extracted from the transactional database using <strong>advanced SQL queries</strong> — CTEs for session sequencing, window functions for drop-off attribution, and aggregation joins across user_id, session_id, and event_type tables.</p>
+    <p>The output was visualised in <strong>Power BI</strong> with drill-through filters for device type, traffic source, product category, and geography — enabling the product and UX teams to explore findings independently and act on granular segments.</p>
+    <p>Recommendations were prioritised using an effort-impact matrix, with the checkout UI redesign identified as the highest-leverage action.</p>
+  </div>
+
+  <div class="outcome-block reveal">
+    <h3>+2.5% Conversion Rate After UI Changes</h3>
+    <p>Post-implementation analysis confirmed that simplifying the checkout form (removing redundant fields, adding address autofill, and surfacing prepaid incentives earlier) lifted overall conversion by 2.5 percentage points — translating to a measurable revenue impact across 2M+ monthly sessions.</p>
+  </div>
+
+  <div class="proj-nav">
+    <a href="index.html#projects">← Back to Projects</a>
+    <div class="next-proj">
+      <a href="project-sales.html" style="flex-direction:column;align-items:flex-end">
+        <span>Next Project →</span>
+        <h4>Sales Forecasting &amp; Prepaid Optimisation</h4>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 Vrinda Parashar · Built with care</p>
+  <p>B.Sc. Computer Science (Hons) · Calcutta University</p>
+</footer>
+
+<script>
+const cvs=document.getElementById('bgCanvas'),ctx=cvs.getContext('2d');
+let W,H,pts=[];
+const COLS=['#e85d75','#00b4a6','#7c5cbf','#f7a325'];
+function resize(){W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+class P{constructor(){this.reset()}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.35;this.vy=(Math.random()-.5)*.35;this.r=Math.random()*1.6+.4;this.col=COLS[Math.floor(Math.random()*4)];this.a=Math.random()*.5+.15}update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.col+Math.floor(this.a*255).toString(16).padStart(2,'0');ctx.fill()}}
+for(let i=0;i<80;i++)pts.push(new P());
+function frame(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.update();p.draw()});requestAnimationFrame(frame)}
+frame();
+const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx-4+'px';dot.style.top=my-4+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx-20+'px';ring.style.top=ry-20+'px';requestAnimationFrame(loop)})();
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// Animate funnel bars
+const funnelObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.stage-bar').forEach(bar=>{bar.style.width=(bar.dataset.w||0)+'%'});
+      funnelObs.unobserve(e.target);
+    }
+  });
+},{threshold:.3});
+document.querySelectorAll('#funnelVis').forEach(el=>funnelObs.observe(el));
+</script>
+</body>
+</html>
