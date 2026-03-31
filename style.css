@@ -15,6 +15,7 @@
 
   /* RGB variants for rgba() usage */
   --bg-rgb: 250,249,245;
+  --bg-dark-rgb: 20,20,19;
   --accent-orange-rgb: 217,119,87;
   --accent-blue-rgb: 106,155,204;
   --accent-green-rgb: 120,140,93;
@@ -159,7 +160,7 @@ nav {
   font-weight: 700;
   letter-spacing: .15em;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--bg-card);
   margin-bottom: 2rem;
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
   animation: fadeUp .8s .5s both;
@@ -184,7 +185,7 @@ nav {
 .btn-primary {
   display: inline-block;
   background: var(--accent-orange);
-  color: #fff;
+  color: var(--bg-card);
   padding: .9rem 2.2rem;
   font-family: var(--font-heading);
   font-size: .75rem;
@@ -556,7 +557,7 @@ nav {
   font-family: var(--font-heading);
   font-size: 5rem;
   font-weight: 700;
-  color: rgba(var(--bg-dark-rgb, 20,20,19), .03);
+  color: rgba(var(--bg-dark-rgb), .03);
   position: absolute;
   bottom: -1rem;
   right: .8rem;
@@ -626,7 +627,7 @@ nav {
   font-family: var(--font-heading);
   font-size: 5.5rem;
   font-weight: 700;
-  color: rgba(var(--bg-dark-rgb, 20,20,19), .03);
+  color: rgba(var(--bg-dark-rgb), .03);
   position: absolute;
   top: .2rem;
   right: 1.2rem;
@@ -710,7 +711,7 @@ nav {
   font-size: 24vw;
   font-weight: 700;
   font-style: italic;
-  color: rgba(var(--bg-dark-rgb, 20,20,19), .04);
+  color: rgba(var(--bg-dark-rgb), .04);
   white-space: nowrap;
   pointer-events: none;
   bottom: -3rem;
@@ -780,7 +781,7 @@ nav {
 }
 .c-link:hover {
   background: var(--accent-orange);
-  color: #fff;
+  color: var(--bg-card);
   border-color: var(--accent-orange);
 }
 
