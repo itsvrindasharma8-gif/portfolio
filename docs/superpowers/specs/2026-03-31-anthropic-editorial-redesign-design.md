@@ -208,7 +208,29 @@ Keep `preconnect` hints for fonts.googleapis.com and fonts.gstatic.com.
 ## GitHub Pages Deployment
 
 - Purely static — no build step needed
-- Ensure `.nojekyll` file exists in root
+- Create empty `.nojekyll` file in repo root
+- Create `.gitignore` with: `.DS_Store`, `.claude/`, `.code-review-graph/`
+- Track `public/` directory (contains portrait image — must be committed)
 - All asset paths must be relative (no leading `/`)
-- Add `.DS_Store` to `.gitignore`
 - No server-side dependencies
+
+---
+
+## Implementation Checklist (from code review)
+
+These issues were found by automated review and should be fixed during implementation:
+
+### Accessibility
+- Wrap all content sections in `<main>` landmark element
+- Change `<div class="exp-section">` and `<div class="contact-wrap">` to `<section>`
+- Add `aria-hidden="true"` to decorative emoji spans
+- Add `rel="noopener noreferrer"` to all `target="_blank"` links
+
+### Performance
+- Add `width`, `height`, and `loading="lazy"` to portrait `<img>`
+- Add favicon (`<link rel="icon">`)
+
+### SEO
+- Add `og:image`, `og:url` meta tags
+- Add Twitter Card meta tags (`twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`)
+- Add `<link rel="canonical">`
