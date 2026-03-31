@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI/UX Research &amp; Website Overhaul · Vrinda Parashar</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,600&family=Syne:wght@400;500;600;700;800&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#08070f;--paper:#f2ede6;--rose:#e85d75;--teal:#00b4a6;--amber:#f7a325;--violet:#7c5cbf}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--paper);font-family:'Syne',sans-serif;overflow-x:hidden}
+#bgCanvas{position:fixed;inset:0;z-index:0;opacity:.35;pointer-events:none}
+.cur{position:fixed;pointer-events:none;z-index:9999}
+#curDot{width:8px;height:8px;background:var(--teal);border-radius:50%;transform:translate(-50%,-50%);transition:transform .15s}
+#curRing{width:40px;height:40px;border:1.5px solid rgba(0,180,166,.45);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:1.6rem 5rem;mix-blend-mode:difference}
+.nav-mark{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;font-weight:600;color:#fff;letter-spacing:.04em;text-decoration:none}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+.nav-links a{font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.5);text-decoration:none;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:#fff}
+
+.proj-hero{min-height:55vh;display:flex;align-items:flex-end;padding:9rem 5rem 5rem;position:relative;overflow:hidden}
+.proj-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 70% 40%,rgba(0,180,166,.13) 0%,transparent 65%),radial-gradient(ellipse 45% 50% at 15% 70%,rgba(124,92,191,.1) 0%,transparent 55%)}
+.proj-hero-content{position:relative;z-index:2;max-width:820px}
+.proj-eyebrow{display:flex;align-items:center;gap:1rem;font-family:'Space Mono',monospace;font-size:.62rem;color:var(--teal);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp .8s .2s both}
+.proj-eyebrow-line{width:2rem;height:1px;background:var(--teal)}
+.proj-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:700;line-height:1;color:#fff;margin-bottom:1.5rem;animation:fadeUp .9s .35s both}
+.proj-title em{font-style:italic;color:var(--teal)}
+.proj-tags{display:flex;gap:.5rem;flex-wrap:wrap;animation:fadeUp .8s .5s both}
+.ptag{font-family:'Space Mono',monospace;font-size:.56rem;padding:.3rem .7rem;letter-spacing:.05em;background:rgba(0,180,166,.08);border:1px solid rgba(0,180,166,.22);color:rgba(0,180,166,.85)}
+
+.proj-body{max-width:1100px;margin:0 auto;padding:6rem 5rem;position:relative;z-index:1}
+.proj-section{margin-bottom:5rem}
+.proj-section-label{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--teal);letter-spacing:.2em;text-transform:uppercase;display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem}
+.proj-section-label::before{content:'';width:1.5rem;height:1px;background:var(--teal)}
+.proj-section h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:#fff;margin-bottom:1.5rem;line-height:1.15}
+.proj-section p{font-family:'Cormorant Garamond',serif;font-size:1.12rem;line-height:1.9;color:rgba(242,237,230,.68);margin-bottom:1.2rem}
+.proj-section p strong{color:#fff;font-weight:600}
+
+/* METRICS */
+.metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);margin:3rem 0;animation:fadeUp .8s .4s both}
+.metric-block{background:var(--ink);padding:2rem;text-align:center}
+.metric-big{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:700;color:var(--teal);display:block;line-height:1}
+.metric-desc{font-family:'Space Mono',monospace;font-size:.58rem;color:rgba(242,237,230,.35);letter-spacing:.1em;text-transform:uppercase;margin-top:.5rem;display:block}
+
+/* CLICK JOURNEY VIS */
+.click-vis{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:2.5rem;margin:2rem 0}
+.cv-title{font-family:'Space Mono',monospace;font-size:.58rem;color:rgba(242,237,230,.3);letter-spacing:.14em;text-transform:uppercase;margin-bottom:2rem}
+.cv-row{display:flex;align-items:center;gap:0;margin-bottom:1.2rem}
+.cv-label{font-family:'Space Mono',monospace;font-size:.58rem;color:rgba(242,237,230,.4);width:80px;flex-shrink:0}
+.cv-steps{display:flex;align-items:center;gap:0;flex:1}
+.cv-step{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;flex-shrink:0;position:relative;transition:all .4s}
+.cv-step.bad{background:rgba(232,93,117,.15);border:1.5px solid rgba(232,93,117,.35);color:rgba(232,93,117,.9)}
+.cv-step.good{background:rgba(0,180,166,.15);border:1.5px solid rgba(0,180,166,.35);color:rgba(0,180,166,.9)}
+.cv-step.ghost{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);color:rgba(242,237,230,.2)}
+.cv-connector{width:16px;height:1px;background:rgba(255,255,255,.12);flex-shrink:0}
+.cv-connector.bad{background:rgba(232,93,117,.25)}
+.cv-connector.good{background:rgba(0,180,166,.25)}
+.cv-connector.ghost{background:rgba(255,255,255,.06)}
+.cv-tag{font-family:'Space Mono',monospace;font-size:.52rem;letter-spacing:.06em;margin-left:1.2rem}
+.cv-tag.bad{color:rgba(232,93,117,.7)}
+.cv-tag.good{color:rgba(0,180,166,.7)}
+.cv-delta{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;margin-left:auto;padding-left:1.5rem}
+
+/* PILLAR CARDS */
+.pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.05);margin:2rem 0}
+.pillar-card{background:var(--ink);padding:2rem;border-top:2px solid}
+.pillar-card:nth-child(1){border-color:var(--teal)}
+.pillar-card:nth-child(2){border-color:var(--violet)}
+.pillar-card:nth-child(3){border-color:var(--amber)}
+.pillar-card:nth-child(4){border-color:var(--rose)}
+.pillar-card:nth-child(5){border-color:var(--teal)}
+.pillar-card:nth-child(6){border-color:var(--violet)}
+.pillar-icon{font-size:1.5rem;margin-bottom:.8rem;display:block}
+.pillar-card h4{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;color:#fff;margin-bottom:.6rem;letter-spacing:.04em}
+.pillar-card p{font-family:'Cormorant Garamond',serif;font-size:.95rem;color:rgba(242,237,230,.55);line-height:1.72}
+
+/* TECH STACK */
+.tech-row{display:flex;flex-wrap:wrap;gap:.8rem;margin:1.5rem 0}
+.tech-badge{font-family:'Space Mono',monospace;font-size:.62rem;padding:.4rem 1rem;border:1px solid rgba(0,180,166,.28);color:rgba(0,180,166,.8);background:rgba(0,180,166,.06);letter-spacing:.06em}
+.tech-badge.violet{border-color:rgba(124,92,191,.28);color:rgba(124,92,191,.8);background:rgba(124,92,191,.06)}
+.tech-badge.amber{border-color:rgba(247,163,37,.28);color:rgba(247,163,37,.8);background:rgba(247,163,37,.06)}
+
+/* BEFORE-AFTER COMPARISON */
+.ba-compare{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.06);margin:2rem 0}
+.ba-col{background:var(--ink);padding:2rem}
+.ba-col-head{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:.8rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.ba-col-head.before{color:rgba(232,93,117,.6)}
+.ba-col-head.after{color:rgba(0,180,166,.7)}
+.ba-item{display:flex;align-items:baseline;gap:.6rem;margin-bottom:.9rem;font-family:'Cormorant Garamond',serif;font-size:1.02rem;color:rgba(242,237,230,.6);line-height:1.55}
+.ba-item::before{content:'·';color:rgba(255,255,255,.2);flex-shrink:0}
+.ba-item.after::before{content:'✓';color:var(--teal);flex-shrink:0}
+
+/* OUTCOME */
+.outcome-block{background:linear-gradient(135deg,rgba(0,180,166,.08),rgba(124,92,191,.06));border:1px solid rgba(0,180,166,.15);padding:3rem;margin:2rem 0;position:relative;overflow:hidden}
+.outcome-block::before{content:'OUTCOME';position:absolute;top:1.5rem;right:1.5rem;font-family:'Space Mono',monospace;font-size:.55rem;color:rgba(0,180,166,.3);letter-spacing:.2em}
+.outcome-block h3{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:#fff;margin-bottom:.8rem}
+.outcome-block p{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.85;color:rgba(242,237,230,.65)}
+
+.proj-nav{display:flex;justify-content:space-between;align-items:center;padding:3rem 0;border-top:1px solid rgba(255,255,255,.06);margin-top:4rem}
+.proj-nav a{font-family:'Space Mono',monospace;font-size:.65rem;color:rgba(242,237,230,.4);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;display:flex;align-items:center;gap:.5rem}
+.proj-nav a:hover{color:var(--teal)}
+.proj-nav .next-proj h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:#fff;margin-top:.4rem;text-align:right}
+footer{background:var(--ink);padding:2rem 5rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(255,255,255,.04)}
+footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,230,.22);letter-spacing:.1em}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:none}}
+
+@media(max-width:768px){
+  nav{padding:1.5rem 2rem}
+  .proj-hero{padding:8rem 2rem 4rem}
+  .proj-body{padding:4rem 2rem}
+  .metrics-row{grid-template-columns:1fr 1fr}
+  .pillar-grid{grid-template-columns:1fr}
+  .ba-compare{grid-template-columns:1fr}
+  .proj-nav{flex-direction:column;gap:2rem}
+  footer{padding:2rem;flex-direction:column;gap:.5rem;text-align:center}
+}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="cur" id="curDot" style="position:fixed;top:0;left:0"></div>
+<div class="cur" id="curRing" style="position:fixed;top:0;left:0"></div>
+
+<nav>
+  <a href="index.html" class="nav-mark">Vrinda Parashar</a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#experience">Experience</a></li>
+    <li><a href="index.html#skills">Skills</a></li>
+    <li><a href="index.html#projects">Projects</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="proj-hero">
+  <div class="proj-hero-bg"></div>
+  <div class="proj-hero-content">
+    <div class="proj-eyebrow"><span class="proj-eyebrow-line"></span>Project 06 · UX Research &amp; Technical SEO</div>
+    <h1 class="proj-title">UI/UX Research &amp;<br><em>Website Performance</em> Overhaul</h1>
+    <div class="proj-tags">
+      <span class="ptag">UX Research</span>
+      <span class="ptag">Technical SEO</span>
+      <span class="ptag">LCP / WebP</span>
+      <span class="ptag">Google Merchant Centre</span>
+      <span class="ptag">WordPress / WooCommerce</span>
+      <span class="ptag">Shopify</span>
+    </div>
+  </div>
+</div>
+
+<div class="proj-body">
+
+  <div class="metrics-row reveal">
+    <div class="metric-block">
+      <span class="metric-big">7→4</span>
+      <span class="metric-desc">Clicks to Product</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big" style="color:var(--violet)">LCP</span>
+      <span class="metric-desc">Improved via WebP</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big" style="color:var(--amber)">GMC</span>
+      <span class="metric-desc">Shopping Listed</span>
+    </div>
+    <div class="metric-block">
+      <span class="metric-big" style="color:var(--rose)">3x</span>
+      <span class="metric-desc">Platforms Built</span>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Overview</div>
+    <h2>From frustrating to frictionless</h2>
+    <p>This project was born from a simple but damning observation: customers had to click 7 or 8 times just to find a product and reach its page. For a fast-moving e-commerce business, every unnecessary click is a potential exit. The research went beyond just navigation — it covered everything that made the website harder to use, slower to load, and invisible to search engines.</p>
+    <p>The work spanned <strong>UX research, technical performance improvements, SEO infrastructure, Google visibility, and full platform builds</strong> across WordPress/WooCommerce and Shopify — tackling customer experience from first impression to final purchase.</p>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">The Click Problem</div>
+    <h2>Reducing product discovery from 8 clicks to 4</h2>
+    <div class="click-vis">
+      <div class="cv-title">Customer Journey — Finding a Product</div>
+
+      <div class="cv-row">
+        <div class="cv-label" style="color:rgba(232,93,117,.6)">Before</div>
+        <div class="cv-steps">
+          <div class="cv-step bad">1</div><div class="cv-connector bad"></div>
+          <div class="cv-step bad">2</div><div class="cv-connector bad"></div>
+          <div class="cv-step bad">3</div><div class="cv-connector bad"></div>
+          <div class="cv-step bad">4</div><div class="cv-connector bad"></div>
+          <div class="cv-step bad">5</div><div class="cv-connector bad"></div>
+          <div class="cv-step bad">6</div><div class="cv-connector bad"></div>
+          <div class="cv-step bad">7</div><div class="cv-connector bad"></div>
+          <div class="cv-step bad">8</div>
+        </div>
+        <div class="cv-tag bad">7–8 clicks</div>
+      </div>
+
+      <div class="cv-row" style="margin-bottom:0">
+        <div class="cv-label" style="color:rgba(0,180,166,.7)">After</div>
+        <div class="cv-steps">
+          <div class="cv-step good">1</div><div class="cv-connector good"></div>
+          <div class="cv-step good">2</div><div class="cv-connector good"></div>
+          <div class="cv-step good">3</div><div class="cv-connector good"></div>
+          <div class="cv-step good">4</div><div class="cv-connector ghost"></div>
+          <div class="cv-step ghost">—</div><div class="cv-connector ghost"></div>
+          <div class="cv-step ghost">—</div><div class="cv-connector ghost"></div>
+          <div class="cv-step ghost">—</div><div class="cv-connector ghost"></div>
+          <div class="cv-step ghost">—</div>
+        </div>
+        <div class="cv-tag good">4 clicks · −50%</div>
+      </div>
+    </div>
+    <p>The fix involved a complete navigation architecture review — collapsing redundant category layers, introducing smarter mega-menus with direct product family access, and surfacing search-first pathways for return users who knew what they wanted.</p>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">All Improvements</div>
+    <h2>Six pillars of the overhaul</h2>
+    <div class="pillar-grid">
+      <div class="pillar-card">
+        <span class="pillar-icon">🖱️</span>
+        <h4>Navigation Architecture</h4>
+        <p>Restructured category trees and mega-menus to reduce clicks to product from 7–8 down to 4. Introduced predictive search and shortcut pathways for high-intent users.</p>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-icon">⚡</span>
+        <h4>LCP &amp; Image Performance</h4>
+        <p>Converted all product and banner images to WebP format, reducing average page weight significantly. Implemented lazy loading and preload hints for above-the-fold images to improve Largest Contentful Paint scores.</p>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-icon">🔍</span>
+        <h4>Google Indexing &amp; Crawlability</h4>
+        <p>Submitted XML sitemaps, fixed crawl errors in Google Search Console, and ensured all key product and category pages were properly indexed. Resolved orphan pages and broken internal link structures.</p>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-icon">📝</span>
+        <h4>Meta Descriptions &amp; Snippets</h4>
+        <p>Rewrote all category and product-level meta descriptions for relevance and click-through optimisation. Added structured data (schema.org) for product listings — enabling rich snippets including price, availability, and review stars in SERPs.</p>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-icon">🛒</span>
+        <h4>Google Merchant Centre</h4>
+        <p>Listed the full product catalogue on Google Merchant Centre, unlocking Google Shopping placements. Resolved feed errors, mapped correct product attributes (GTIN, brand, MPN), and maintained feed health for continuous visibility.</p>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-icon">🎨</span>
+        <h4>Graphics &amp; Visual Quality</h4>
+        <p>Improved product imagery standards and page visual hierarchy — better hero banners, consistent lifestyle shots, and cleaner listing thumbnails to reduce bounce from poor first impressions.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Platforms &amp; Tools</div>
+    <h2>Built across three platforms</h2>
+    <p>This work wasn't limited to one system — the research and implementation spanned the full spectrum of e-commerce infrastructure.</p>
+    <div class="tech-row">
+      <span class="tech-badge">WordPress</span>
+      <span class="tech-badge">Elementor Plus</span>
+      <span class="tech-badge">WooCommerce</span>
+      <span class="tech-badge violet">Shopify</span>
+      <span class="tech-badge amber">Google Merchant Centre</span>
+      <span class="tech-badge amber">Google Search Console</span>
+      <span class="tech-badge">Schema.org Structured Data</span>
+      <span class="tech-badge violet">WebP Conversion</span>
+      <span class="tech-badge">XML Sitemaps</span>
+      <span class="tech-badge violet">Product Cataloguing</span>
+    </div>
+    <p style="margin-top:1.5rem"><strong>WordPress + Elementor Plus + WooCommerce</strong> was used to design and build full e-commerce websites — from page layouts and product pages to checkout flow and customer account management. <strong>Shopify</strong> was used for a separate business, covering product setup, theme customisation, collections, and operational analytics. Both platforms required deep familiarity with the full merchant workflow including cataloguing, variant management, and order operations.</p>
+  </div>
+
+  <div class="proj-section reveal">
+    <div class="proj-section-label">Before &amp; After</div>
+    <h2>What changed — at a glance</h2>
+    <div class="ba-compare">
+      <div class="ba-col">
+        <div class="ba-col-head before">⚠ Before</div>
+        <div class="ba-item">7–8 clicks to reach a product page</div>
+        <div class="ba-item">Heavy PNG/JPEG images causing slow LCP</div>
+        <div class="ba-item">Key pages not indexed by Google</div>
+        <div class="ba-item">Generic or missing meta descriptions</div>
+        <div class="ba-item">No structured data / rich snippets</div>
+        <div class="ba-item">Not listed on Google Merchant Centre</div>
+        <div class="ba-item">Inconsistent product imagery quality</div>
+      </div>
+      <div class="ba-col">
+        <div class="ba-col-head after">✓ After</div>
+        <div class="ba-item after">4 clicks to product — navigation restructured</div>
+        <div class="ba-item after">All images converted to WebP · LCP improved</div>
+        <div class="ba-item after">Sitemaps submitted · pages indexed &amp; crawlable</div>
+        <div class="ba-item after">Keyword-optimised meta descriptions written</div>
+        <div class="ba-item after">Schema markup added · rich snippets live</div>
+        <div class="ba-item after">GMC feed live · Shopping placements active</div>
+        <div class="ba-item after">Visual standards raised across all pages</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="outcome-block reveal">
+    <h3>Faster, Findable, and Friction-Free</h3>
+    <p>The combined UX, performance, and SEO overhaul transformed the website from a slow, hard-to-navigate storefront into a streamlined customer experience that search engines could properly read and rank. Cutting the click path in half removed the single biggest source of user frustration, while the technical SEO work ensured the site's product inventory could be discovered by new customers through Google Search and Shopping — compounding the conversion improvements with improved organic reach.</p>
+  </div>
+
+  <div class="proj-nav">
+    <a href="project-sales-improvement.html">← Sales Growth Project</a>
+    <div class="next-proj">
+      <a href="index.html#projects" style="flex-direction:column;align-items:flex-end">
+        <span>All Projects →</span>
+        <h4>Back to Portfolio</h4>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 Vrinda Parashar · Built with care</p>
+  <p>B.Sc. Computer Science (Hons) · Calcutta University</p>
+</footer>
+
+<script>
+const cvs=document.getElementById('bgCanvas'),ctx=cvs.getContext('2d');
+let W,H,pts=[];
+const COLS=['#00b4a6','#7c5cbf','#f7a325','#e85d75'];
+function resize(){W=cvs.width=window.innerWidth;H=cvs.height=window.innerHeight}
+resize();window.addEventListener('resize',resize);
+class P{constructor(){this.reset()}reset(){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5)*.35;this.vy=(Math.random()-.5)*.35;this.r=Math.random()*1.6+.4;this.col=COLS[Math.floor(Math.random()*4)];this.a=Math.random()*.5+.15}update(){this.x+=this.vx;this.y+=this.vy;if(this.x<0||this.x>W||this.y<0||this.y>H)this.reset()}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.col+Math.floor(this.a*255).toString(16).padStart(2,'0');ctx.fill()}}
+for(let i=0;i<80;i++)pts.push(new P());
+function frame(){ctx.clearRect(0,0,W,H);pts.forEach(p=>{p.update();p.draw()});requestAnimationFrame(frame)}
+frame();
+const dot=document.getElementById('curDot'),ring=document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx-4+'px';dot.style.top=my-4+'px'});
+(function loop(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx-20+'px';ring.style.top=ry-20+'px';requestAnimationFrame(loop)})();
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
