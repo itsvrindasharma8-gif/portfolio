@@ -317,7 +317,7 @@ footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,2
         The intersection of <strong>creativity and data</strong> is where I exist. I turn numbers into narratives — decoding e-commerce patterns into growth strategy, and transforming raw signals into <strong>decisions that move the needle.</strong>
       </p>
       <div class="hero-ctas">
-        <a href="/cdn-cgi/l/email-protection#94e2e6fdfaf0f5e4f5e6f5e7fcf5e6a6a4a4a7d4f3f9f5fdf8baf7fbf9" class="btn-glow">Let's Connect</a>
+        <a href="mailto:vrindaparashar2003@gmail.com" class="btn-glow">Let's Connect</a>
         <a href="https://linkedin.com/in/vrinda-parashar2024" target="_blank" class="btn-ghost">LinkedIn ↗</a>
       </div>
     </div>
@@ -364,6 +364,7 @@ footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,2
 
               <!-- Center label -->
               <text class="venn-label-c" x="170" y="71">Strategy</text>
+              <text class="venn-sub-c" x="170" y="85">↯ THIS IS ME</text>
             </svg>
           </div>
           <div class="intersection-labels">
@@ -685,7 +686,7 @@ footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,2
     <div class="sec-num reveal">05 · Contact</div>
     <h2 class="reveal">Let's build <em>something</em><br>great together</h2>
     <p class="contact-sub reveal">Open to data analytics, web analytics, and e-commerce growth roles. Always happy to chat about dashboards, data strategy, or anything in between.</p>
-    <a href="/cdn-cgi/l/email-protection#0f797d66616b6e7f6e7d6e7c676e7d3d3f3f3c4f68626e6663216c6062" class="c-email reveal"><span class="__cf_email__" data-cfemail="86f0f4efe8e2e7f6e7f4e7f5eee7f4b4b6b6b5c6e1ebe7efeaa8e5e9eb">[email&#160;protected]</span></a>
+    <a href="mailto:vrindaparashar2003@gmail.com" class="c-email reveal">vrindaparashar2003@gmail.com</a>
     <div class="c-row reveal">
       <a href="tel:+919875395143" class="c-link">📞 +91 98753 95143</a>
       <a href="https://linkedin.com/in/vrinda-parashar2024" target="_blank" class="c-link">🔗 LinkedIn Profile</a>
@@ -698,7 +699,7 @@ footer p{font-family:'Space Mono',monospace;font-size:.6rem;color:rgba(242,237,2
   <p>B.Sc. Computer Science (Hons) · Calcutta University</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 /* PARTICLES */
 const cvs=document.getElementById('bgCanvas'),ctx=cvs.getContext('2d');
 let W,H,pts=[];
@@ -750,4 +751,17 @@ function drawDonut(){
 /* VENN SVG animation handled via CSS */
 window.addEventListener('load',drawDonut);
 
-const toggle=document.getElementById('navToggle'),drawer=document.ge
+const toggle=document.getElementById('navToggle'),drawer=document.getElementById('navDrawer');
+if(toggle&&drawer){
+  toggle.addEventListener('click',()=>{
+    toggle.classList.toggle('open');
+    drawer.classList.toggle('open');
+  });
+  drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+    toggle.classList.remove('open');
+    drawer.classList.remove('open');
+  }));
+}
+</script>
+</body>
+</html>
