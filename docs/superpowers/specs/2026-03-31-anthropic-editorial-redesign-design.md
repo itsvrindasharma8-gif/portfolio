@@ -34,6 +34,12 @@ Reimagine Vrinda Parashar's portfolio homepage as a warm, editorial long-form st
   --accent-blue: #6a9bcc;
   --accent-green: #788c5d;
 
+  /* RGB variants for rgba() usage */
+  --bg-rgb: 250,249,245;
+  --accent-orange-rgb: 217,119,87;
+  --accent-blue-rgb: 106,155,204;
+  --accent-green-rgb: 120,140,93;
+
   /* Typography */
   --font-heading: 'Poppins', Arial, sans-serif;
   --font-body: 'Lora', Georgia, serif;
@@ -63,7 +69,7 @@ Keep `preconnect` hints for fonts.googleapis.com and fonts.gstatic.com.
 ### 1. Navigation
 
 - Fixed top, `rgba(250,249,245,.88)` background with backdrop blur (keep current pattern)
-- Nav mark: Poppins italic, `#141413`
+- Nav mark: Poppins italic, `#141413` (changes from current Cormorant Garamond serif to sans-serif)
 - Nav links: Space Mono uppercase, `#b0aea5`, hover → `--accent-orange`
 - Border bottom: `#e8e6dc`
 
