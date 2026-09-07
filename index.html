@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vrinda Parashar — Brand Manager</title>
+<title>Vrinda Parashar Brand Manager</title>
 <link rel="icon" type="image/png" href="https://drive.google.com/thumbnail?id=1KDOiMMfAwkmUtFxAEby_cD4T-T-umsAt&sz=w64">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Unbounded:wght@400;500;600;700;800&family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,400;1,6..96,500&family=Space+Grotesk:wght@300;400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
@@ -41,9 +41,10 @@ nav ul a:hover::after{width:100%;}
 .nav-links{display:flex;}
 @media(max-width:800px){.nav-links{display:none;}}
 
-.nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;position:relative;z-index:600;}
-.nav-burger span{width:22px;height:2px;background:currentColor;display:block;}
-@media(max-width:800px){.nav-burger{display:flex;}}
+.nav-burger{display:flex;flex-direction:column;gap:5px;background:var(--ink);border:1.5px solid var(--paper);border-radius:50%;cursor:pointer;width:38px;height:38px;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.4);}
+.nav-burger span{width:16px;height:2px;background:var(--paper);display:block;}
+.burger-badge{position:fixed;top:15px;right:5vw;z-index:600;display:none;}
+@media(max-width:800px){.burger-badge{display:block;}}
 
 .mobile-menu{position:fixed;inset:0;background:var(--ink);color:var(--paper);z-index:900;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:18px;padding:10vw 8vw;overflow:hidden;transform:translateY(-100%);transition:transform .45s cubic-bezier(.7,0,.3,1);}
 .mobile-menu.open{transform:translateY(0);overflow-y:auto;}
@@ -315,8 +316,11 @@ footer{background:var(--ink);color:var(--paper);padding:22px 6vw;display:flex;ju
     <li><a href="#journey">Journey</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
 </nav>
+
+<div class="burger-badge">
+  <button class="nav-burger" aria-label="Open menu"><span></span><span></span><span></span></button>
+</div>
 
 <div class="mobile-menu">
   <button class="mm-close" aria-label="Close menu">✕</button>
@@ -392,15 +396,14 @@ footer{background:var(--ink);color:var(--paper);padding:22px 6vw;display:flex;ju
   </div>
   <div>
     <h2>Two years of turning creative concepts into campaigns customers actually show up for.</h2>
-    <p>I build and scale D2C and retail brands end-to-end — from the first creative concept to the content calendar to the campaign that goes live — across footwear, skincare, clothing and accessories, in India, the UK and on LinkedIn.</p>
-    <p>I own brand positioning and creative direction across digital and ATL/OOH, and I pair that creative ownership with a Computer Science foundation that keeps every call backed by consumer-behaviour data.</p>
+    <p>I build and scale D2C and retail brands end-to-end — from the first creative concept to the content calendar to the campaign that goes live across footwear, skincare, clothing and accessories, in India, the UK and on LinkedIn. I own brand positioning and creative direction across digital and ATL/OOH, and I pair that creative ownership with a Computer Science foundation that keeps every call backed by consumer-behaviour data.</p>
   </div>
 </section>
 
 <!-- STATS -->
 <div class="stats">
   <div class="stat"><div class="num"><span class="count" data-target="130">0</span>K</div><div class="lbl">Instagram followers grown from a 65K base</div></div>
-  <div class="stat"><div class="num">₹<span class="count" data-target="25">0</span>L</div><div class="lbl">Monthly marketing budget managed at peak</div></div>
+  <div class="stat"><div class="num">₹<span class="count" data-target="25">0</span>L</div><div class="lbl">Monthly marketing budget managed </div></div>
   <div class="stat"><div class="num"><span class="count" data-target="15">0</span>+</div><div class="lbl">Person cross-functional team led</div></div>
   <div class="stat"><div class="num"><span class="count" data-target="35">0</span>K+</div><div class="lbl">SKUs across 5+ Shopify storefronts</div></div>
 </div>
